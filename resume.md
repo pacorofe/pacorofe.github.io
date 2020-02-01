@@ -45,11 +45,11 @@ __Undergraduate student with research Collaboration Fellowship__. Co-supervised 
 __Undergraduate student__ at Cajal Institute (CSIC). Madrid, Spain
 
 
-## Awards
+## Fellowsips and awards
 
 `2015`
 
-__Fundação para a Ciência e a Tecnologia (FCT) fellowship.__. International Neuroscience Doctoral Program, Champalimaud Research. Lisbon, Portugal.
+__Fundação para a Ciência e a Tecnologia (FCT) Fellowship.__. International Neuroscience Doctoral Program, Champalimaud Research. Lisbon, Portugal.
 
 `2014`
 
@@ -57,7 +57,7 @@ __The Pasteur – Paris University International Doctoral Program (PPUIDP) PhD F
 
 __José Cuena Award__. Department of Artificial Intelligence (UPM). Madrid, Spain
 
-`Oct 2012 - Jun 2013`
+`2012`
 
 __Research Collaboration Fellowship__. Spanish Ministry of Education and Science. Spain
 
@@ -83,7 +83,7 @@ A list is also available [online](https://scholar.google.com/citations?user=PtgV
 
 ## Communications at conferences
 
-**Talks**
+### Talks
 
 `2019`
 
@@ -91,7 +91,7 @@ __idtracker.ai:	tracking all individuals in	small	or large	collectives	of unmark
 [ASAB Summer 2019 Conference ‘New Frontiers in the study of Animal Behaviour’](https://www.asab.org/conferences/2019/8/26/asab-summer-conference-2019). Konstanz, Germany
 
 
-**Posters**
+### Posters
 
 `2018`
 
