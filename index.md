@@ -3,12 +3,4 @@ layout: page
 excerpt: "About Me..."
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-## Current Interests and Projects:
-
-- Lorem ipsum dolor sit amet
-- Lorem ipsum dolor sit amet
-- DLorem ipsum dolor sit amet
-- Lorem ipsum dolor sit amet
-- Lorem ipsum dolor sit amet
+I am a PhD Candidate in the [Collective Behaviour Lab](https://www.fchampalimaud.org/researchfc/groups/grupo-collective-behavior) in the [Champalimaud Research](https://www.fchampalimaud.org/researchfc/) at the [Champalimaud Center for the Uknown](https://www.fchampalimaud.org/) in Lisbon, Portugal. During my PhD I've developed [idtracker.ai](https://idtrackerai.readthedocs.io/en/latest/), performed behavior experiments in collectives of zebrafish (Danio Rerio), and applied different data analysis techniques to understand how animals transfer information in groups.
