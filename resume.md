@@ -1,6 +1,8 @@
 ---
 layout: resume
 ---
+#CV
+
 ## Currently
 
 PhD Candidate
@@ -79,9 +81,8 @@ International Neuroscience Doctoral Program, Champalimaud Research.
 Lisbon, Portugal.
 
 `2014`
-__The Pasteur – Paris University International Doctoral Program (PPUIDP) PhD Fellowship)__
+__The Pasteur – Paris University International Doctoral Program (PPUIDP) PhD Fellowship)__(declined in favor of the above FCT fellowship)
 
-(declined in favor of the above FCT fellowship).
 Institute Pasteur.
 Paris, France.
 
@@ -118,7 +119,7 @@ A list is also available [online](https://scholar.google.com/citations?user=PtgV
 
 ## Communications at conferences
 
-### Invited oral communications
+### Talk
 
 `2019`
 [ASAB Summer 2019 Conference ‘New Frontiers in the study of Animal Behaviour’](https://www.asab.org/conferences/2019/8/26/asab-summer-conference-2019), Konstanz, Germany (26th-28th August)
@@ -140,7 +141,8 @@ Estoril, Portugal (30th July - 4th August)
 ## Teaching experience
 
 `2019`
-Teaching Assistant
+__Teaching Assistant__
+
 Introduction to Convolutional Neural Networks.
 [International Neuroscience Doctoral Programme](https://www.fchampalimaud.org/researchfc/education/) 2018 at the Champalimaud Research.
 
@@ -211,29 +213,39 @@ Living Machines Conference 2019
 `May 2018`
 PLoS ONE
 
+## Computational Skills
+
+__Operative systems__
+
+Linux Os, Windows, MacOS
+
+__Programming langagues__
+
+Python, LaTeX, Matlab, Mathematica
+
+
 ## Languages
-Spanish (Native language)
-
-Catalan (Native language)
-
-English (Upper intermediate level)
-
-Portuguese (Basic level)
+* Spanish (Native language)
+* Catalan (Native language)
+* English (Upper intermediate level)
+* Portuguese (Basic level)
 
 ## Other certificates
 
 `2008`
-Driving License B
+Driving License B.
 Spain
 
 `2007`
-Grau Mitjà.
+__Coneixements de Valencià de Grau Mitjà__
+
 Junta Qualificadora de Coneixements de Valencià.
 Valencia, Spain
 
 `1998-2008`
-Medium-Level qualification diploma in Clarinet
-Conservatory of Music of Villena
+__Medium-Level qualification diploma in Clarinet__
+
+Conservatory of Music of Villena.
 Alicante, Spain
 
 
