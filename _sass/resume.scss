@@ -19,14 +19,14 @@
 
 .resume body {
   font: normal normal 400;
-  font-size: 100%;
-
 }
+
 .resume p {
   position: relative;
   margin-right: 0;
   width: 100%;
-  padding-bottom: 1px;
+  padding-bottom: 0px;
+  font-size: 0.9em;
 
 }
 
@@ -75,7 +75,7 @@
 
 .resume h2 {
   font-size: 1.5em;
-  border-bottom: 1px solid black;
+  border-bottom: 3px solid black;
   color: $highlightcolor;
   position: relative;
   text-align: left;
@@ -96,9 +96,10 @@ div#resume.resume{
   width: 30%;
 }
 .resume h4 {
-  font-size: 18px;
-  margin-bottom: -25px;
-  font-family: inherit;
+  color: $highlightcolor;
+  border-bottom: 1px solid black;
+  font-size: 1.1em;
+  margin-bottom: 1px;
 }
 
 em {
