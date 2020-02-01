@@ -2,10 +2,6 @@
 layout: resume
 ---
 
-## Currently
-
-PhD Candidate
-
 ## Education
 
 `2015-`
