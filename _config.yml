@@ -12,8 +12,9 @@ owner:
   email: paco.romero.ferrero@gmail.com
   # Do not include the @ symbol in your Twitter username
   twitter: PacoRoFe
-  linkedin: #username
-  github: pacorofe
+  linkedin: # Francisco Romero Ferrero
+  github: #pacorofe
+  gitlab: #francisco.romero
   orcid: 0000-0002-4353-7997
   researchgate: #username
   mendeley: #username
@@ -21,9 +22,9 @@ owner:
     plus: #username
     analytics:
     verify:
-    scholar: #id
+    scholar: PtgVx9kAAAAJ
   facebook: #username
-  instagram: #username
+  instagram: # paco.romeroferrero
   bing-verify:
   stackoverflow: #123456/username from a "https://stackoverflow.com/users/123456/username" link
   xing: #username
