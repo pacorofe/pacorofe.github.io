@@ -1,20 +1,20 @@
 # Site wide configuration
 
-title: Site Title
+title: Francisco Romero-Ferrero
 locale: en_US
 logo: # filename of a logo image that has been placed into your images directory
 
 # Enter the following platform usernames if you would like for them to appear on your site.
 owner:
-  name: Your Name
+  name: Francisco Romero Ferrero
   avatar: bio-photo.jpg
-  bio: "A brief description of yourself."
-  email: #emailaddress
+  bio: "PhD Candidate in Neuroscience at the Collective Behaviour Lab in Champalimuad Research, Lisbon, Portugal "
+  email: paco.romero.ferrero@gmail.com
   # Do not include the @ symbol in your Twitter username
-  twitter: #username
+  twitter: PacoRoFe
   linkedin: #username
-  github: #username
-  orcid: # ID Number (ex. 0000-0000-0000-0000)
+  github: pacorofe
+  orcid: 0000-0002-4353-7997
   researchgate: #username
   mendeley: #username
   google:
