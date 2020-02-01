@@ -6,7 +6,7 @@ layout: resume
 
 `2015-`
 
-__PhD in Neuroscience (expected)__. International Neuroscience Doctoral Programme (INDP) at Champalimaud Research (CR). Lisbon, Portugal
+__PhD candidate in Neuroscience (expected)__. International Neuroscience Doctoral Programme (INDP) at Champalimaud Research (CR). Lisbon, Portugal
 
 `2013-2014`
 
