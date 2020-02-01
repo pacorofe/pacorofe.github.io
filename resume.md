@@ -150,11 +150,11 @@ __[Advanced Behavoiur Technology Summer Course](http://neuro.fchampalimaud.org/e
 
 `2019`
 
-Living Machines Conference 2019
+[Living Machines Conference 2019](http://livingmachinesconference.eu/2019/)
 
 `2018`
 
-PLoS ONE
+[PLoS ONE](http://livingmachinesconference.eu/2019/)
 
 ## Computational Skills
 
