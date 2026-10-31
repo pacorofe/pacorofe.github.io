@@ -16,6 +16,7 @@ fotografia/index.html    Atlas de la fotografía: corrientes como tira de contac
 improvisacion/index.html Atlas de la libre improvisación: corrientes como partitura gráfica
 .nojekyll                Desactiva Jekyll: se sirve el HTML tal cual
 geopolitica/vendor/      d3 7.9.0 y topojson-client 3.1.0 en local (sin depender de CDNs)
+scripts/sync_artifact.py Copia un atlas desde su artifact de Claude al repo
 ```
 
 ## Reglas de trabajo
@@ -40,6 +41,14 @@ geopolitica/vendor/      d3 7.9.0 y topojson-client 3.1.0 en local (sin depender
   `python3 -m http.server 8000` y `http://localhost:8000/`) y comprueba que no hay errores
   en consola.
 - **Git**: mensajes de commit cortos en español, del tipo `fotografia: añade Saul Leiter`.
+
+## Atlas Geopolítico: actualización semanal
+
+Una tarea programada revisa la actualidad cada viernes a las 17:00 (Madrid), republica el
+artifact del atlas en Claude y después copia el resultado aquí con
+`scripts/sync_artifact.py` y hace push a `main`. El artifact es la fuente original;
+`geopolitica/index.html` es una copia, así que no lo edites a mano: tus cambios se
+perderían en la siguiente actualización. Pide los cambios sobre el artifact.
 
 ## Visibilidad
 
