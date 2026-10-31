@@ -1,0 +1,1170 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Atlas de la libre improvisación</title><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: una partitura gráfica (Treatise de Cardew) como mapa — tiempo en horizontal, regiones como pentagramas; la ficha se abre debajo */
+:root{
+  --paper:#eef0ec; --sheet:#f8f9f6; --ink:#16181a; --muted:#5b6266; --rule:#c9cec9;
+  --cm:#5b558f; --da:#1f7f86; --us:#b5791a; --uk:#c2412d; --eu:#2f5fae; --jp:#2f8a5a; --es:#a23b7e;
+  --display:"Syne","Arial Black",system-ui,sans-serif;
+  --body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#141617; --sheet:#1c1f20; --ink:#e9ebe7; --muted:#9aa19f; --rule:#343a3a;
+  --cm:#a8a2de; --da:#5ec3c3; --us:#e0a443; --uk:#ec6b55; --eu:#6f98e0; --jp:#5fbf8a; --es:#d474b3; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#141617; --sheet:#1c1f20; --ink:#e9ebe7; --muted:#9aa19f; --rule:#343a3a;
+  --cm:#a8a2de; --da:#5ec3c3; --us:#e0a443; --uk:#ec6b55; --eu:#6f98e0; --jp:#5fbf8a; --es:#d474b3; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 64px}
+.wrap{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:36px}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.05}
+h1{font-size:clamp(2.2rem,7vw,4.4rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700}
+h3{font-size:.8rem;font-family:var(--mono);font-weight:500;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+.mono{font-family:var(--mono);font-size:.78rem;letter-spacing:.04em}
+header{display:grid;gap:14px}
+header p{max-width:62ch;margin:0;color:var(--muted)}
+.kicker{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{font-family:var(--mono);font-size:.78rem;border:1px solid var(--rule);background:var(--sheet);color:var(--ink);padding:6px 11px;border-radius:999px;cursor:pointer;display:inline-flex;gap:7px;align-items:center}
+.chip[aria-pressed="false"]{opacity:.45}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+input[type=search]{font-family:var(--mono);font-size:.85rem;padding:7px 12px;border:1px solid var(--rule);border-radius:999px;background:var(--sheet);color:var(--ink);min-width:0;flex:1 1 200px;max-width:320px}
+.score{overflow-x:auto;background:var(--sheet);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+.score svg{display:block;min-width:760px;width:100%;height:auto}
+.score text{font-family:var(--mono)}
+.lane{cursor:pointer}
+.lane:hover .bar,.lane:focus .bar{stroke-width:9}
+.legend{display:flex;flex-wrap:wrap;gap:16px;color:var(--muted)}
+#ficha{background:var(--sheet);border-left:6px solid var(--c,var(--ink));padding:28px clamp(18px,4vw,40px);display:grid;gap:26px;scroll-margin-top:16px}
+.fhead{display:grid;gap:10px}
+.meta{display:flex;flex-wrap:wrap;gap:6px 18px;color:var(--muted)}
+.cols{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:32px}
+@media (max-width:760px){.cols{grid-template-columns:minmax(0,1fr)}}
+.col{display:grid;gap:22px;align-content:start;min-width:0}
+.sec{display:grid;gap:8px}
+.sec p{margin:0;max-width:65ch}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-family:var(--mono);font-size:.74rem;padding:3px 9px;border:1px solid var(--c,var(--rule));border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+td{padding:6px 8px 6px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+td.n{font-weight:600}
+td.y{font-family:var(--mono);font-size:.76rem;color:var(--muted);white-space:nowrap}
+.tbl{overflow-x:auto}
+.disc{display:grid;gap:4px;padding:10px 0;border-bottom:1px solid var(--rule)}
+.disc .t{font-style:italic;font-weight:600}
+.disc .a{color:var(--muted);font-size:.9rem}
+.listen{display:flex;gap:6px;flex-wrap:wrap}
+.listen a{font-family:var(--mono);font-size:.72rem;text-decoration:none;border:1px solid var(--rule);padding:3px 8px;border-radius:3px}
+.listen a:hover{border-color:var(--ink)}
+.links{display:flex;flex-wrap:wrap;gap:8px}
+.links button{font-family:var(--mono);font-size:.76rem;background:none;border:1px solid var(--rule);color:var(--ink);padding:5px 10px;border-radius:3px;cursor:pointer}
+.links button:hover{border-color:var(--ink)}
+textarea{width:100%;min-height:96px;font-family:var(--body);font-size:.95rem;padding:10px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:3px;resize:vertical}
+.draft{border:1px dashed var(--rule);padding:10px 12px;color:var(--muted);font-size:.9rem}
+.index{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:2px;background:var(--rule);border:1px solid var(--rule)}
+.card{background:var(--sheet);padding:16px;display:grid;gap:6px;cursor:pointer;text-align:left;border:0;color:var(--ink);font:inherit;border-top:4px solid var(--c)}
+.card:hover{background:var(--paper)}
+.card b{font-family:var(--display);font-size:1.05rem;line-height:1.15}
+.card span{color:var(--muted);font-size:.88rem}
+.reading{display:grid;gap:6px;max-width:70ch}
+.reading li{margin-bottom:4px}
+.roster{display:grid;border-top:1px solid var(--rule)}
+.m{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr);gap:4px 16px;padding:10px 0;border-bottom:1px solid var(--rule);align-items:baseline}
+@media (max-width:640px){.m{grid-template-columns:minmax(0,1fr)}}
+.m b{font-weight:600}
+.m .i{display:block;color:var(--muted);font-size:.9rem}
+.m .where{display:flex;flex-wrap:wrap;gap:6px}
+.m .where button{font-family:var(--mono);font-size:.72rem;background:none;border:1px solid var(--rule);color:var(--ink);padding:3px 8px;border-radius:3px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.m .where button:hover{border-color:var(--ink)}
+.chip .n{color:var(--muted)}
+.lk{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:left;text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:3px;text-decoration-thickness:1px}
+.lk:hover{text-decoration-color:currentColor}
+#velo{position:fixed;inset:0;background:color-mix(in srgb,var(--ink) 35%,transparent);z-index:20}
+#panel{position:fixed;top:0;right:0;bottom:0;width:min(560px,100%);background:var(--sheet);color:var(--ink);z-index:21;overflow-y:auto;border-left:6px solid var(--c,var(--ink));
+  padding:calc(24px + env(safe-area-inset-top,0px)) max(22px,env(safe-area-inset-right,0px)) calc(40px + env(safe-area-inset-bottom,0px)) 26px;display:grid;gap:22px;align-content:start;box-shadow:-12px 0 40px color-mix(in srgb,var(--ink) 18%,transparent)}
+@media (prefers-reduced-motion:no-preference){#panel{animation:entra .22s ease-out}}
+@keyframes entra{from{transform:translateX(24px);opacity:.4}to{transform:none;opacity:1}}
+#panel .ptop{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+#panel .cerrar{font-family:var(--mono);font-size:.8rem;background:none;border:1px solid var(--rule);color:var(--ink);padding:6px 10px;border-radius:3px;cursor:pointer;flex:none}
+#panel h2{font-size:clamp(1.5rem,5vw,2.1rem)}
+#panel .sec p{margin:0}
+#panel ul.cl{margin:0;padding-left:1.1em;display:grid;gap:4px}
+#panel .escucha{background:var(--paper);padding:14px 16px;border-radius:3px}
+#panel .chips{display:flex;flex-wrap:wrap;gap:6px}
+#panel .chips button{font-family:var(--mono);font-size:.74rem;background:none;border:1px solid var(--rule);color:var(--ink);padding:4px 9px;border-radius:3px;cursor:pointer;display:inline-flex;gap:6px;align-items:center;text-align:left}
+#panel .chips button:hover{border-color:var(--ink)}
+footer{color:var(--muted);font-size:.9rem;max-width:65ch}
+@media (prefers-reduced-motion:no-preference){#ficha{transition:border-color .3s}}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="kicker">Atlas · 1959 → hoy</div>
+  <h1>Atlas de la libre improvisación</h1>
+  <p>Un mapa de las corrientes que, desde el free jazz y la vanguardia de los años sesenta, convirtieron la improvisación en un arte propio. Cada línea es una corriente en su región y su tiempo; las curvas marcan influencias. Toca una línea para abrir su ficha, con músicos, discos para escuchar y lecturas.</p>
+</header>
+
+<section style="display:grid;gap:14px">
+  <div class="controls" id="filters"></div>
+  <div class="score" id="score"></div>
+  <div class="legend mono"><span>━ periodo de mayor actividad</span><span>→ sigue activa</span><span>⌒ influencia</span></div>
+</section>
+
+<section id="ficha" aria-live="polite"></section>
+
+<section style="display:grid;gap:16px">
+  <h2>Todas las corrientes</h2>
+  <div class="index" id="index"></div>
+</section>
+
+<section style="display:grid;gap:16px" id="musicos">
+  <h2>Músicos por instrumento</h2>
+  <div class="controls" id="famchips"></div>
+  <div class="controls"><input type="search" id="mq" placeholder="Buscar por nombre, instrumento o país…" aria-label="Buscar músicos"><span class="mono" id="mcount" style="color:var(--muted)"></span></div>
+  <div class="roster" id="roster"></div>
+</section>
+
+<section style="display:grid;gap:12px">
+  <h2>Para empezar a leer</h2>
+  <ul class="reading" id="lecturas"></ul>
+</section>
+
+<footer>Los enlaces de escucha abren una búsqueda en YouTube, Spotify o Bandcamp con el título exacto del disco, para que encuentres la edición disponible en tu país. Las notas que escribas en cada ficha se guardan solo en este navegador. Este atlas crece con lo que vayas descubriendo: pide en el chat que añada músicos, discos o corrientes nuevas.</footer>
+</div>
+
+<div id="velo" hidden></div>
+<aside id="panel" role="dialog" aria-modal="true" aria-labelledby="ptitulo" hidden></aside>
+
+<script>
+/* ===== FICHAS: biografías (m), discos (d) y libros (l) ===== */
+const FICHAS={m:{},d:{},l:{}};
+Object.assign(FICHAS.m, {
+"Arnold Schoenberg": {bio:"Compositor vienés, en buena parte autodidacta. Hacia 1908 abandona la tonalidad y en 1923 formula el método dodecafónico, que ordena los doce sonidos en una serie. Fue además un maestro decisivo: Berg y Webern fueron alumnos suyos, y en Los Ángeles también John Cage. Judío, huye del nazismo en 1933 y pasa el resto de su vida en California, enseñando en la UCLA.",
+  claves:["Viena 1874 – Los Ángeles 1951","Atonalidad (1908) y dodecafonismo (1923)","Obras: Pierrot lunaire, Moses und Aron, Un superviviente de Varsovia","Para la improvisación: liberó el oído del centro tonal"]},
+"Anton Webern": {bio:"Alumno de Schoenberg y el más radical de la Segunda Escuela de Viena. Sus obras son brevísimas: notas aisladas, timbres que cambian de instrumento en instrumento y mucho silencio. Tras 1945 los jóvenes de Darmstadt lo convirtieron en su modelo. Murió por el disparo accidental de un soldado estadounidense durante la ocupación de Austria.",
+  claves:["Viena 1883 – Mittersill 1945","Obra completa: unas tres horas de música","Puntillismo y melodía de timbres","Su gesto breve resuena en el atomismo de Derek Bailey"]},
+"Alban Berg": {bio:"El tercer miembro de la Segunda Escuela de Viena y el más lírico. Usó la atonalidad y la serie sin renunciar a la expresión romántica ni a guiños tonales. Su ópera Wozzeck (1925) fue un éxito internacional y su Concierto para violín (1935), dedicado «a la memoria de un ángel», es una de las obras más queridas del siglo XX.",
+  claves:["Viena 1885 – 1935","Óperas: Wozzeck y Lulu","Concierto para violín (1935)","Demuestra que la serie puede ser expresiva"]},
+"Pierre Boulez": {bio:"Compositor y director francés, líder de la vanguardia serial de posguerra. En 1952 publicó el polémico artículo «Schoenberg ha muerto», reclamando ir más allá hacia el serialismo integral. Fundó el IRCAM (1977) y el Ensemble intercontemporain (1976). Despreciaba la improvisación libre, que veía como repetición de clichés, aunque su música abrió muchos timbres que los improvisadores exploraron.",
+  claves:["Montbrison 1925 – Baden-Baden 2016","Le Marteau sans maître (1955)","Fundador del IRCAM","Contrario a la improvisación: una de las tensiones del atlas"]},
+"Luigi Nono": {bio:"Compositor veneciano, figura central de Darmstadt y comprometido con el Partido Comunista. Su música une serialismo y denuncia política (Il canto sospeso, La fabbrica illuminata). En los años ochenta gira hacia la escucha, el silencio y la electrónica en vivo: el cuarteto Fragmente – Stille, an Diotima (1980) y Prometeo (1984) anticipan la sensibilidad del reduccionismo.",
+  claves:["Venecia 1924 – 1990","Música y compromiso político","Etapa tardía: silencio y escucha","Lema: «Caminante, no hay caminos, hay que caminar» (tomado de un muro de Toledo)"]},
+"Milton Babbitt": {bio:"Compositor y matemático estadounidense, profesor en Princeton. Llevó el pensamiento serial a una precisión casi científica y fue pionero del sintetizador RCA Mark II en el Columbia-Princeton Electronic Music Center. Su artículo de 1958, titulado por el editor «Who Cares if You Listen?», defendía la música como investigación especializada.",
+  claves:["Filadelfia 1916 – Princeton 2011","Serialismo integral en EE.UU.","Electrónica: Philomel (1964)","El polo opuesto a la espontaneidad improvisada"]},
+"John Cage": {bio:"Compositor de Los Ángeles que estudió con Schoenberg y tomó el camino contrario: dejar que los sonidos sean ellos mismos. Inventó el piano preparado (1940), usó el I Ching para componer por azar (Music of Changes, 1951) y escribió 4'33'' (1952), estrenada por David Tudor. Fue pareja y colaborador de Merce Cunningham. Desconfiaba de la improvisación, porque creía que repetía hábitos, pero sus ideas dieron permiso a casi toda la libre improvisación posterior.",
+  claves:["Los Ángeles 1912 – Nueva York 1992","Piano preparado, azar, indeterminación","4'33'' (1952) y el libro Silence (1961)","Influencia directa: AMM, Fluxus, Zaj, reduccionismo, onkyo"]},
+"Morton Feldman": {bio:"Compositor neoyorquino, amigo de Cage y de los pintores del expresionismo abstracto (Rothko, Guston). Sus primeras partituras gráficas, las Projections (1950–51), dejan libre la altura de las notas. Después se centró en dinámicas casi inaudibles y obras muy largas: su Cuarteto de cuerda II (1983) dura más de cinco horas. Es el gran referente de la escena reduccionista.",
+  claves:["Nueva York 1926 – Buffalo 1987","Dinámica mínima, tiempo suspendido","Rothko Chapel (1971), For Philip Guston (1984)","Modelo para Wandelweiser, Malfatti o Tilbury"]},
+"Christian Wolff": {bio:"Nacido en Niza, llegó a Nueva York de niño y a los dieciséis años se convirtió en el alumno más joven de Cage. Profesor de literatura clásica en Dartmouth, compuso piezas con señales entre los músicos: cada uno reacciona a lo que oye según unas reglas. Tocó con AMM y Cardew, y ese sistema de escucha mutua es un puente directo con la improvisación.",
+  claves:["Niza 1934","For 1, 2 or 3 People (1964), Burdocks (1971)","Música como red de reacciones entre intérpretes","Conexión con AMM y Cardew"]},
+"Earle Brown": {bio:"Compositor estadounidense influido por Calder y Pollock. December 1952 es una de las primeras partituras gráficas: rectángulos sobre una hoja blanca que el intérprete lee como quiera. En Available Forms I (1961) el director decide en vivo el orden de bloques escritos, una idea muy cercana a la conduction de Butch Morris.",
+  claves:["Lunenburg (Massachusetts) 1926 – Rye 2002","Partitura gráfica y forma abierta","December 1952","Antecedente de la conduction y las game pieces"]},
+"David Tudor": {bio:"Pianista virtuoso que estrenó obras de Cage, Boulez, Stockhausen y Feldman, entre ellas 4'33'' en 1952. En los sesenta dejó el piano por la electrónica casera: Rainforest (1968) hace sonar objetos con transductores. Fue músico de la compañía de Merce Cunningham durante décadas.",
+  claves:["Filadelfia 1926 – Tomkins Cove 1996","Estrenó 4'33''","Rainforest (1968): electrónica con objetos","Del intérprete al creador de sistemas sonoros"]},
+"La Monte Young": {bio:"Compositor estadounidense, padre del minimalismo de drones. Sus Compositions 1960 son instrucciones de texto (\"dibuja una línea recta y síguela\") que circularon en Fluxus. Con el Theatre of Eternal Music (Tony Conrad, John Cale, Marian Zazeela) sostuvo durante horas sonidos amplificados en afinación justa. Su Dream House es una instalación sonora permanente.",
+  claves:["Bern (Idaho) 1935","Drones y afinación justa","Compositions 1960 (piezas de texto, Fluxus)","Antecedente del onkyo y de la escucha de larga duración"]},
+"Merce Cunningham": {bio:"Bailarín y coreógrafo, solista con Martha Graham y pareja de John Cage. Separó danza y música: se creaban por separado y se encontraban el día del estreno. Usó el azar para decidir el orden y la dirección de los movimientos. Su compañía empleó a Tudor, Kosugi, Rauschenberg y Warhol, y de su entorno salen los bailarines del Judson.",
+  claves:["Centralia 1919 – Nueva York 2009","Azar en la coreografía","Danza y música independientes","Directores musicales: Cage, Tudor, Kosugi"]},
+"Simone Forti": {bio:"Nacida en Florencia, su familia huyó del fascismo a EE.UU. Sus Dance Constructions (1961), presentadas en el loft de Yoko Ono, son tareas físicas simples como trepar o apilarse. Estudió con Anna Halprin, trabajó con La Monte Young y más tarde exploró el movimiento animal y la improvisación con palabra (Logomotion).",
+  claves:["Florencia 1935","Dance Constructions (1961)","Del gesto cotidiano a la improvisación hablada","Precursora del Judson y del contact"]},
+"Yvonne Rainer": {bio:"Bailarina y coreógrafa de San Francisco, cofundadora del Judson Dance Theater. Su «No Manifesto» (1965) rechaza el espectáculo, el virtuosismo y la seducción. Trio A (1966) es un continuo de movimientos sin acentos ni mirada al público. En los setenta pasó al cine.",
+  claves:["San Francisco 1934","No Manifesto (1965)","Trio A (1966)","Su rechazo del virtuosismo se parece al de Bailey o AMM"]},
+"Steve Paxton": {bio:"Bailarín de la compañía de Cunningham y del Judson. En Satisfyin Lover (1967) treinta personas cualesquiera simplemente caminan. En 1972 presenta Magnesium en Oberlin, origen de la contact improvisation: dos cuerpos que comparten peso y contacto y se escuchan como dos músicos. Participó en el grupo de improvisación Grand Union.",
+  claves:["Tucson 1939 – Vermont 2024","Creador de la contact improvisation (1972)","Grand Union (1970–76)","Equivalente en danza de la escucha improvisada"]},
+"Trisha Brown": {bio:"Coreógrafa del Judson que hizo de la gravedad y la estructura su tema. En Man Walking Down the Side of a Building (1970) un bailarín baja por una fachada. Accumulation (1971) suma gestos de uno en uno. Más tarde colaboró con Rauschenberg y Laurie Anderson (Set and Reset, 1983).",
+  claves:["Aberdeen (Washington) 1936 – San Antonio 2017","Accumulation (1971)","Danza con reglas y estructuras","Su compañía sigue activa"]},
+"Julyen Hamilton": {bio:"Bailarín, coreógrafo, poeta y músico británico, pionero de la improvisación y la composición instantánea en danza. Lleva más de cuatro décadas actuando y ha creado más de cien solos. Con su compañía Allen's Line crea y actúa la obra en el mismo momento junto a bailarines e iluminadores. Desde los ochenta trabaja con improvisadores como Barre Phillips, Fred Frith, Tristan Honsinger y Michael Moore, y da talleres por toda Europa.",
+  claves:["Reino Unido","Composición instantánea","Compañía Allen's Line","Colaboraciones con Barre Phillips, Honsinger y Moore"]},
+"Pierre Schaeffer": {bio:"Ingeniero de la radio francesa que en 1948 compuso con ruidos grabados: nace la música concreta (Étude aux chemins de fer, con trenes). Con Pierre Henry firmó Symphonie pour un homme seul (1950) y fundó el GRM. Su idea de la «escucha reducida», oír un sonido por sí mismo sin pensar en su origen, es casi un programa para la improvisación electroacústica.",
+  claves:["Nancy 1910 – Aix-en-Provence 1995","Música concreta (1948)","Traité des objets musicaux (1966)","El objeto sonoro y la escucha reducida"]},
+"Karlheinz Stockhausen": {bio:"Compositor alemán, líder de la vanguardia de Colonia y Darmstadt. Pionero de la electrónica (Gesang der Jünglinge, 1956) y de la electrónica en vivo (Mikrophonie I, 1964). En 1968 escribió Aus den sieben Tagen, «música intuitiva» con textos en lugar de notas, para un grupo con músicos como Vinko Globokar y Michel Portal. Cardew, que fue su asistente, lo atacó después en Stockhausen Serves Imperialism.",
+  claves:["Mödrath 1928 – Kürten 2007","Electrónica, espacialización, música intuitiva","Ciclo de óperas Licht (1977–2003)","Puente entre vanguardia escrita e improvisación"]},
+"Iannis Xenakis": {bio:"Griego, combatió en la resistencia y perdió un ojo. Exiliado en París, trabajó como arquitecto con Le Corbusier (Pabellón Philips, 1958). Compuso con matemáticas y probabilidad: Metastaseis (1954) son glissandos masivos de cuerda. Su idea de pensar la música como nubes y masas de sonido está en la base de muchas texturas de la improvisación colectiva.",
+  claves:["Brăila 1922 – París 2001","Música estocástica","Metastaseis (1954), Persephassa (1969)","Polytopes: Persepolis (1971), su obra electroacústica más larga","Masas sonoras, glissandos, densidad"]},
+"Krzysztof Penderecki": {bio:"Compositor polaco que en los sesenta lideró la llamada escuela sonorista. Threnody (1960) usa clusters, cuartos de tono y técnicas de cuerda inéditas, con notación gráfica. Su sonido llegó a públicos enormes a través del cine (El resplandor, El exorcista). Desde los setenta se volvió neorromántico.",
+  claves:["Dębica 1933 – Cracovia 2020","Sonorismo: clusters y técnicas extendidas","Threnody (1960)","Paralelo con la Globe Unity y la densidad del free europeo"]},
+"Helmut Lachenmann": {bio:"Compositor alemán, alumno de Nono. Su «música concreta instrumental» saca de los instrumentos clásicos los sonidos que la tradición evitaba: fricciones, aire, ruidos de arco y de llaves. Pression (1969–70), para violonchelo, es casi un catálogo de técnicas que luego usarán muchos improvisadores.",
+  claves:["Stuttgart 1935","Música concreta instrumental","Pression (1970), Das Mädchen mit den Schwefelhölzern (1997)","El mismo vocabulario de técnicas extendidas que la improvisación"]},
+"Bernd Alois Zimmermann": {bio:"Compositor alemán y profesor en Colonia. Defendía la «esfericidad del tiempo»: pasado y presente sonando a la vez, en collages de citas que incluyen jazz. Su ópera Die Soldaten (1965) es monumental. Alexander von Schlippenbach estudió con él antes de fundar la Globe Unity. Se suicidó en 1970.",
+  claves:["Bliesheim 1918 – Königsdorf 1970","Collage y pluralismo","Die Soldaten (1965)","Maestro de Schlippenbach"]},
+"Vinko Globokar": {bio:"Trombonista y compositor nacido en Francia de padres eslovenos. Virtuoso de técnicas extendidas (cantar dentro del instrumento, multifónicos), participó en la música intuitiva de Stockhausen. En 1969 fundó con Michel Portal, Jean-Pierre Drouet y Carlos Roqué Alsina el grupo de improvisación New Phonic Art, uno de los primeros en el mundo de la música contemporánea.",
+  claves:["Anderny 1934","Trombón de técnicas extendidas","New Phonic Art (1969)","Compositor que improvisa: rompe la frontera"]},
+"Ornette Coleman": {bio:"Saxofonista de Fort Worth que tocaba un alto de plástico y fue rechazado en las jam sessions. En 1959 su cuarteto con Don Cherry, Charlie Haden y Billy Higgins llega al Five Spot de Nueva York y divide a la crítica. Propone melodías libres de esquemas armónicos fijos, una teoría que llamó harmolodics. Free Jazz (1961) dio nombre a todo un movimiento. Ganó el Pulitzer en 2007.",
+  claves:["Fort Worth 1930 – Nueva York 2015","El cuarteto del Five Spot (1959)","Harmolodics","Free Jazz (1961) y Prime Time"]},
+"Cecil Taylor": {bio:"Pianista formado en el New England Conservatory, que admiraba a Bartók y Stravinsky tanto como a Ellington. Su piano percusivo, de racimos y velocidad enorme, se describe como «88 tambores afinados». Fue también poeta y trabajó con bailarines. En 1988 pasó un mes en Berlín tocando con los improvisadores europeos (caja Cecil Taylor in Berlin '88, FMP), un encuentro histórico.",
+  claves:["Nueva York 1929 – 2018","Unit Structures (1966)","Piano percusivo, forma por bloques","Puente con Europa: Berlín 1988"]},
+"John Coltrane": {bio:"Saxofonista que pasó del hard bop con Miles Davis a la música modal (A Love Supreme, 1964) y después al free. Ascension (1965) reúne a los jóvenes de la New Thing en una improvisación colectiva. Sus últimos discos, como Interstellar Space (1967) con Rashied Ali, son pura energía espiritual. Murió con cuarenta años.",
+  claves:["Hamlet 1926 – Huntington 1967","A Love Supreme (1964)","Ascension (1965)","Dio prestigio y espiritualidad al free"]},
+"Albert Ayler": {bio:"Saxofonista de Cleveland con un vibrato enorme y melodías que parecen himnos, marchas o canciones infantiles. Sus primeros discos los grabó en Escandinavia. Spiritual Unity (1964) en ESP-Disk es un manifiesto. Decía que la música era «la fuerza curativa del universo». Apareció muerto en el East River en 1970.",
+  claves:["Cleveland 1936 – Nueva York 1970","Spiritual Unity (1964)","Timbre desgarrado, melodía simple","Influencia directa en Brötzmann"]},
+"Sun Ra": {bio:"Herman Blount, nacido en Alabama, se presentaba como un enviado de Saturno. Con su Arkestra, que vivía en comunidad, mezcló big band, ritual, teatro y electrónica: fue de los primeros en usar el Moog en el jazz. Autoeditó cientos de discos en su sello Saturn. Es el padre del afrofuturismo.",
+  claves:["Birmingham (Alabama) 1914 – 1993","Arkestra y vida comunitaria","Afrofuturismo; Space Is the Place","Autogestión: sello propio"]},
+"Bill Dixon": {bio:"Trompetista y organizador. En octubre de 1964 montó la «October Revolution in Jazz», cuatro días de conciertos que lanzaron la New Thing, y después la Jazz Composers Guild. Colaboró con la bailarina Judith Dunn, del Judson, y enseñó durante décadas en Bennington College. Su trompeta trabaja con aire, registros graves y silencio.",
+  claves:["Nantucket 1925 – Vermont 2010","October Revolution in Jazz (1964)","Colaboración con la danza (Judith Dunn)","Trompeta de aire y espacio"]},
+"Don Cherry": {bio:"Trompetista del cuarteto de Ornette Coleman, con su trompeta de bolsillo. Se instaló en Suecia y abrió el free a las músicas del mundo: India, África, Turquía, Bali. Tocó con la Globe Unity y grabó Eternal Rhythm (1968) en Berlín. Fue un nómada que conectó escenas.",
+  claves:["Oklahoma City 1936 – Málaga 1995","Trompeta de bolsillo","Organic Music; Codona","Conexión EE.UU.–Europa–músicas del mundo"]},
+"Eric Dolphy": {bio:"Multiinstrumentista de Los Ángeles: saxo alto, flauta y clarinete bajo, instrumento que convirtió en solista. Llevó el bebop hasta sus límites con saltos interválicos enormes y sonidos vocalizados. Tocó en Free Jazz de Coleman, con Mingus, Coltrane y Gunther Schuller. Murió en Berlín en 1964, semanas después de grabar Last Date con Mengelberg y Bennink.",
+  claves:["Los Ángeles 1928 – Berlín 1964","Out to Lunch! (1964)","Clarinete bajo solista","Puente con la escena holandesa"]},
+"Muhal Richard Abrams": {bio:"Pianista y compositor autodidacta, mentor de toda una generación en Chicago. Desde 1961 dirigió la Experimental Band, laboratorio de ideas, y en 1965 cofundó la AACM. Insistía en que cada músico creara su propia música. Se trasladó a Nueva York en 1977.",
+  claves:["Chicago 1930 – Nueva York 2017","Experimental Band (1961)","Cofundador y primer presidente de la AACM","Levels and Degrees of Light (1968)"]},
+"Roscoe Mitchell": {bio:"Saxofonista y compositor de Chicago. Sound (1966) es el primer disco de la AACM y uno de los primeros en usar el silencio y los pequeños sonidos como material. Cofundador del Art Ensemble of Chicago. Más tarde profesor en Mills College, compone para orquesta sin dejar de improvisar.",
+  claves:["Chicago 1940","Sound (1966)","Art Ensemble of Chicago","Silencio y pequeños instrumentos"]},
+"Lester Bowie": {bio:"Trompetista del Art Ensemble of Chicago, siempre con su bata de médico. Llevó el humor, el blues y la cita popular al free. Después formó Brass Fantasy, que versionaba canciones pop. Era el showman del grupo.",
+  claves:["Frederick (Maryland) 1941 – Nueva York 1999","Art Ensemble of Chicago","Humor y cita popular","Brass Fantasy"]},
+"Joseph Jarman": {bio:"Saxofonista, poeta y performer del Art Ensemble of Chicago, con la cara pintada. Practicó las artes marciales y fue sacerdote budista. En su obra se unen música, poesía y ritual.",
+  claves:["Pine Bluff 1937 – Englewood 2019","Art Ensemble of Chicago","Poesía y teatralidad","Song For (1966)"]},
+"Malachi Favors": {bio:"Contrabajista del Art Ensemble of Chicago, mayor que sus compañeros y con raíces en el blues y el gospel. Se hacía llamar Maghostut y reivindicaba la herencia africana. Era el ancla del grupo.",
+  claves:["Lexington (Misisipi) 1927 – Chicago 2004","Art Ensemble of Chicago","Contrabajo y pequeños instrumentos","Raíz africana"]},
+"Anthony Braxton": {bio:"Saxofonista y compositor de Chicago. For Alto (1969) es el primer disco de saxo solo de la historia. Ha creado sistemas propios, como Language Music y Ghost Trance Music, y titula sus obras con diagramas. Tocó con Bailey, Parker y MEV en Europa. Profesor en Wesleyan, ha recibido la beca MacArthur.",
+  claves:["Chicago 1945","For Alto (1969)","Sistemas compositivos propios","Puente entre AACM, Europa y vanguardia"]},
+"Wadada Leo Smith": {bio:"Trompetista de Misisipi, miembro de la AACM. Creó el sistema de notación Ankhrasmation, basado en símbolos y colores. Su trompeta trabaja el espacio y el silencio. Ten Freedom Summers (2012), sobre los derechos civiles, fue finalista del Pulitzer.",
+  claves:["Leland (Misisipi) 1941","Ankhrasmation","Ten Freedom Summers (2012)","Espacio y silencio"]},
+"Henry Threadgill": {bio:"Saxofonista, flautista y compositor de Chicago, miembro de la AACM. Lideró Air, Very Very Circus y Zooid, con sistemas propios de intervalos. Ganó el Pulitzer en 2016 con In for a Penny, In for a Pound.",
+  claves:["Chicago 1944","Air, Zooid","Pulitzer 2016","Composición e improvisación entrelazadas"]},
+"Amina Claudine Myers": {bio:"Pianista, organista y cantante de Arkansas formada en el gospel. Miembro de la AACM, une blues, iglesia y vanguardia. Grabó Salutes Bessie Smith (1980) y colaboró con el Art Ensemble y Lester Bowie.",
+  claves:["Blackwell (Arkansas) 1942","Gospel, blues y vanguardia","Salutes Bessie Smith (1980)","Una de las voces femeninas de la AACM"]},
+"George E. Lewis": {bio:"Trombonista y compositor, miembro de la AACM desde 1971. Voyager (1985–87) es un programa informático que improvisa con músicos humanos. Profesor en Columbia, escribió la historia de la AACM (A Power Stronger Than Itself, 2008) y fundó los estudios críticos de improvisación. Beca MacArthur.",
+  claves:["Chicago 1952","Voyager: improvisación con ordenador","Historiador de la AACM","Improvisación afrológica y eurológica"]},
+"Julius Hemphill": {bio:"Saxofonista de Texas, cofundador del Black Artists' Group de St. Louis (1968). En 1977 fundó el World Saxophone Quartet. Su disco Dogon A.D. (1972) mezcla blues y vanguardia.",
+  claves:["Fort Worth 1938 – Nueva York 1995","Black Artists' Group","World Saxophone Quartet","Dogon A.D. (1972)"]}
+});
+Object.assign(FICHAS.m, {
+"Derek Bailey": {bio:"Guitarrista de Sheffield que durante años tocó en orquestas de baile y estudios de grabación. En los sesenta, en el trío Joseph Holbrooke con Tony Oxley y Gavin Bryars, empezó a buscar una música sin estilo previo. Cofundó Incus (1970), organizó los encuentros Company (desde 1976) y escribió el libro de referencia sobre la improvisación. Acuñó el término «no idiomático». Siguió tocando hasta su muerte, con una enfermedad neuromotora; su último disco se llama Carpal Tunnel.",
+  claves:["Sheffield 1930 – Londres 2005","Guitarra atomizada: intervalos amplios, armónicos, gestos breves","Incus (1970) y Company Week","Libro: Improvisation (1980)"]},
+"Evan Parker": {bio:"Saxofonista de Bristol, figura central de la escena británica. Desarrolló una técnica de saxo soprano solo con respiración circular, multifónicos y digitaciones rapidísimas que crean varias voces a la vez. Cofundador de Incus, miembro del trío de Schlippenbach y del SME, ha liderado el Electro-Acoustic Ensemble (ECM) y el sello Psi. Ha tocado con Agustí Fernández y medio mundo.",
+  claves:["Bristol 1944","Respiración circular y polifonía en el soprano","Saxophone Solos (1976)","Electro-Acoustic Ensemble; sello Psi"]},
+"John Stevens": {bio:"Batería londinense que fundó en 1966 el Spontaneous Music Ensemble y lo llevó al Little Theatre Club. Inventó ejercicios de escucha como Click Piece y Sustain Piece, que se siguen usando en talleres de todo el mundo. Dedicó gran parte de su vida a la música comunitaria con personas sin formación.",
+  claves:["Brentford 1940 – Ealing 1994","Spontaneous Music Ensemble (1966)","Ejercicios Search and Reflect","Batería mínima, escucha máxima"]},
+"Trevor Watts": {bio:"Saxofonista, cofundador del SME con John Stevens. Después lideró Amalgam, de jazz libre, y Moiré Music, con ritmos africanos.",
+  claves:["York 1939","Cofundador del SME","Amalgam; Moiré Music","Del atomismo a la pulsación"]},
+"Paul Rutherford": {bio:"Trombonista londinense, pionero del trombón solo libre. Con Barry Guy y Derek Bailey formó Iskra 1903, trío de cuerdas y metal sin batería. Su disco solo The Gentle Harm of the Bourgeoisie (1974) es un clásico. Tocó en la Globe Unity.",
+  claves:["Londres 1940 – 2007","Iskra 1903","The Gentle Harm of the Bourgeoisie (1974)","Trombón vocalizado y multifónicos"]},
+"Tony Oxley": {bio:"Batería de Sheffield, compañero de Bailey en el Joseph Holbrooke Trio y cofundador de Incus. Construyó un kit propio con metales, objetos y amplificación. Desde 1988 fue uno de los bateristas preferidos de Cecil Taylor (Feel Trio). Era también pintor.",
+  claves:["Sheffield 1938 – Viersen 2023","Joseph Holbrooke Trio","The Baptised Traveller (1969)","Feel Trio con Cecil Taylor"]},
+"Barry Guy": {bio:"Contrabajista y compositor londinense con doble vida: improvisador radical e intérprete de música barroca con instrumento original. Fundó la London Jazz Composers Orchestra (1970) y después la Barry Guy New Orchestra, en la que toca Agustí Fernández. Con Maya Homburger dirige el sello Maya Recordings. Forma el trío Aurora con Fernández y Ramón López.",
+  claves:["Londres 1947","London Jazz Composers Orchestra (1970)","Sello Maya; trío Aurora","Contrabajo como orquesta: arcos, baquetas, preparaciones"]},
+"Maggie Nicols": {bio:"Cantante escocesa que entró en el SME en 1968. En 1977 cofundó el Feminist Improvising Group con Lindsay Cooper. Después formó Les Diaboliques con Irène Schweizer y Joëlle Léandre. Dirige talleres abiertos (The Gathering) donde cualquiera puede improvisar con la voz y el cuerpo.",
+  claves:["Edimburgo 1948","Feminist Improvising Group (1977)","Les Diaboliques","Voz, teatro y talleres comunitarios"]},
+"Lindsay Cooper": {bio:"Fagotista y compositora, miembro de Henry Cow, el grupo de rock de vanguardia. Cofundó el Feminist Improvising Group en 1977. Compuso Music for Other Occasions y obras para cine y teatro. La esclerosis múltiple la obligó a retirarse en los noventa.",
+  claves:["Londres 1951 – 2013","Henry Cow","Feminist Improvising Group","Puente entre rock de vanguardia e improvisación"]},
+"Phil Minton": {bio:"Trompetista que se convirtió en uno de los vocalistas más extremos de la improvisación: gritos, gorjeos, sonidos de garganta y respiración. Tocó con Mike Westbrook. Su proyecto Feral Choir reúne a personas sin formación para cantar improvisando.",
+  claves:["Torquay 1940","Voz de técnicas extendidas","Feral Choir","Duos con Roger Turner"]},
+"John Russell": {bio:"Guitarrista londinense, alumno de Derek Bailey. En 1991 fundó la serie de conciertos Mopomoso, que funcionó en el Red Rose y después en el Vortex y ha sido el centro de la escena londinense durante treinta años. Allí tocaron Chefa Alonso y Tony Marsh.",
+  claves:["Londres 1954 – 2021","Serie Mopomoso (1991)","Guitarra acústica no idiomática","Conexión con la escena madrileña"]},
+"Keith Rowe": {bio:"Pintor y guitarrista de Plymouth. A mediados de los sesenta, inspirado por Pollock, tumbó la guitarra sobre una mesa y empezó a tocarla con objetos, radio, arcos y motores. Cofundó AMM (1965) y tocó con el grupo hasta 2004. Es la referencia del reduccionismo y del onkyo; sus duos en Erstwhile, como Weather Sky con Toshimaru Nakamura, son claves.",
+  claves:["Plymouth 1940","Guitarra de mesa (tabletop guitar)","AMM 1965–2004","Puente con onkyo y reduccionismo"]},
+"Eddie Prévost": {bio:"Percusionista, cofundador de AMM y del sello Matchless. Desde 1999 dirige un taller semanal en Londres por el que han pasado cientos de músicos. Ha escrito sobre la improvisación como práctica ética y política (No Sound Is Innocent).",
+  claves:["Hitchin 1942","AMM y sello Matchless","Taller semanal desde 1999","Percusión con arcos sobre gong y platillos"]},
+"Lou Gare": {bio:"Saxofonista tenor procedente del jazz, cofundador de AMM con Prévost. Dejó el grupo en 1976 y se instaló en Exeter, donde siguió improvisando.",
+  claves:["Rugby 1939 – 2017","Cofundador de AMM","Saxo en sonidos largos","AMMMusic (1967)"]},
+"Cornelius Cardew": {bio:"Compositor y pianista británico. Fue asistente de Stockhausen (1958–60) y estudió la música de Cage. Escribió Treatise (1963–67), 193 páginas de partitura gráfica. Se unió a AMM en 1966 y fundó la Scratch Orchestra (1969), abierta a no músicos. Después renegó de la vanguardia por motivos políticos (maoísmo) y escribió Stockhausen Serves Imperialism. Murió atropellado.",
+  claves:["Winchcombe 1936 – Londres 1981","Treatise (1963–67)","AMM y Scratch Orchestra","Towards an Ethic of Improvisation"]},
+"John Tilbury": {bio:"Pianista británico, gran intérprete de Feldman y Cardew. Entró en AMM en 1980 y aportó el piano de resonancias, pedal y silencio. Escribió la biografía monumental de Cardew.",
+  claves:["Londres 1936","AMM desde 1980","Intérprete de Feldman","Biografía de Cardew (2008)"]},
+"Peter Brötzmann": {bio:"Saxofonista de Remscheid, formado como artista visual en el entorno Fluxus de Nam June Paik. Machine Gun (1968) es la referencia del free europeo de alta energía. Tocó en Last Exit y lideró el Chicago Tentet. Diseñaba las portadas de sus discos. Tocó hasta pocas semanas antes de morir.",
+  claves:["Remscheid 1941 – Wuppertal 2023","Machine Gun (1968)","Cofundador de FMP","Energía, volumen, timbre desgarrado"]},
+"Alexander von Schlippenbach": {bio:"Pianista berlinés, alumno de Bernd Alois Zimmermann. En 1966 fundó la Globe Unity Orchestra y desde 1970 lidera un trío con Evan Parker y Paul Lovens, uno de los grupos más longevos de la improvisación. También ha grabado la obra completa de Monk (Monk's Casino).",
+  claves:["Berlín 1938","Globe Unity Orchestra (1966)","Trío con Parker y Lovens","Pakistani Pomade (1973)"]},
+"Peter Kowald": {bio:"Contrabajista de Wuppertal, de la Globe Unity y del octeto de Machine Gun. Viajó por todo el mundo tocando en duo (su serie Duos: Europa, America, Japan) y trabajó con bailarines y poetas. Abrió en su casa de Wuppertal el espacio ort. Murió en Nueva York en 2002.",
+  claves:["Masserberg 1944 – Nueva York 2002","Globe Unity; Machine Gun","Duos en todo el mundo","Espacio ort en Wuppertal"]},
+"Manfred Schoof": {bio:"Trompetista alemán, miembro de la Globe Unity desde el principio y líder de un quinteto que grabó European Echoes (1969). Luego dirigió su propia orquesta.",
+  claves:["Magdeburgo 1936","Globe Unity Orchestra","European Echoes (1969)","Trompeta free europea"]},
+"Paul Lovens": {bio:"Batería de Aquisgrán, miembro del trío de Schlippenbach desde 1970. Su kit mezcla platillos viejos, cuencos, sierras y objetos. Cofundador del sello Po Torch.",
+  claves:["Aquisgrán 1949","Trío Schlippenbach","Batería de texturas","Sello Po Torch"]},
+"Irène Schweizer": {bio:"Pianista suiza, pionera entre las mujeres del free europeo. Formó parte del Feminist Improvising Group y de Les Diaboliques. Es célebre por sus duos con baterías (Han Bennink, Louis Moholo, Andrew Cyrille). Su sello de referencia es Intakt Records, de Zúrich.",
+  claves:["Schaffhausen 1941","Wilde Señoritas (1976)","Les Diaboliques","Duos con baterías; sello Intakt"]},
+"Fred Van Hove": {bio:"Pianista belga del trío con Brötzmann y Bennink. Tocaba también órgano de iglesia y acordeón. En 1971 cofundó WIM, asociación de improvisadores belgas.",
+  claves:["Amberes 1937 – 2022","Trío Brötzmann–Van Hove–Bennink","Balls (1970)","WIM (1971)"]},
+"Sven-Åke Johansson": {bio:"Batería sueco, en Berlín desde 1968. Tocó en Machine Gun. Es también acordeonista, poeta sonoro y artista visual, con mucho humor. Schlingerland (1972) es uno de los primeros discos de batería solo libre.",
+  claves:["Mariestad 1943","Machine Gun (1968)","Schlingerland (1972)","Humor y poesía sonora"]},
+"Barre Phillips": {bio:"Contrabajista de San Francisco que tocó con Eric Dolphy (1963) y en el trío de Jimmy Giuffre (desde 1964). Llegó a Europa con George Russell y se instaló en 1967. Grabó Journal Violone (1969), el primer disco de contrabajo solo del jazz. Vivió más de cincuenta años en el sur de Francia, tocó con Bailey, Parker, Guy, Kowald y Yoshizawa y compuso para danza, cine y teatro. Paloma Carrasco lo cita como una de sus grandes influencias.",
+  claves:["San Francisco 1934 – 2024","Journal Violone (1969)","The Trio con Surman y Stu Martin","Influencia de Paloma Carrasco"]},
+"Misha Mengelberg": {bio:"Pianista y compositor nacido en Kiev, hijo de un compositor holandés. Pasó por Fluxus y grabó Last Date (1964) con Eric Dolphy. En 1967 fundó el Instant Composers Pool con Bennink y Breuker. Mezclaba Monk, Herbie Nichols, humor absurdo y un pensamiento muy agudo. Llamaba «composición instantánea» a la improvisación.",
+  claves:["Kiev 1935 – Ámsterdam 2017","Last Date (1964)","Instant Composers Pool (1967)","Humor y anarquía con reglas"]},
+"Han Bennink": {bio:"Batería de Zaandam que toca cualquier cosa: el suelo, sillas, su propio cuerpo. Grabó Last Date con Dolphy y cofundó el ICP. Ha tocado con Brötzmann, Bailey, Parker y Schweizer. También es artista visual. Sus conciertos son puro teatro.",
+  claves:["Zaandam 1942","Last Date (1964)","ICP Orchestra","Batería teatral y swing"]},
+"Willem Breuker": {bio:"Saxofonista y clarinetista holandés, cofundador del ICP. En 1974 creó el Willem Breuker Kollektief, que mezclaba Kurt Weill, marchas, música de circo y free. Impulsó las protestas de los Notenkrakers contra las instituciones.",
+  claves:["Ámsterdam 1944 – 2010","Willem Breuker Kollektief (1974)","Teatro, cita y sátira","Notenkrakers (1969)"]},
+"Maarten Altena": {bio:"Contrabajista holandés de la primera época del ICP. Tocó en duo con Honsinger y luego se dedicó a la composición con su Maarten Altena Ensemble.",
+  claves:["Ámsterdam 1943","ICP","Live Performances con Honsinger (1977)","De la improvisación a la composición"]},
+"Tristan Honsinger": {bio:"Violonchelista de Vermont que estudió en el New England Conservatory. Se fue a Montreal en 1969 para evitar el servicio militar y se instaló en Holanda en 1974, tras escuchar The Topography of the Lungs. Formó parte del ICP, de Company y de la orquesta europea de Cecil Taylor. Lideró This, That and the Other, que mezclaba música, palabra, teatro y dadaísmo. Colaboró con Julyen Hamilton.",
+  claves:["Burlington (Vermont) 1949 – 2023","ICP; Company","This, That and the Other (1987)","Teatro, palabra y danza"]},
+"Ernst Reijseger": {bio:"Violonchelista holandés del ICP y del Clusone Trio con Michael Moore y Han Bennink. Toca el chelo como guitarra y percusión. Ha compuesto bandas sonoras para Werner Herzog.",
+  claves:["Bussum 1954","ICP; Clusone Trio","Bandas sonoras de Herzog","Chelo de técnicas mixtas"]},
+"Michael Moore": {bio:"Saxofonista y clarinetista californiano, en Ámsterdam desde los años ochenta. Miembro del ICP Orchestra, del Clusone Trio y de Available Jelly. Su clarinete es muy lírico. Colaborador de Julyen Hamilton.",
+  claves:["Arcata (California) 1954","ICP; Clusone Trio","Sello Ramboy","Colaboración con Julyen Hamilton"]},
+"Frederic Rzewski": {bio:"Pianista y compositor de Massachusetts que vivió en Roma y Bruselas. Cofundador de Musica Elettronica Viva (1966). Su música une vanguardia y compromiso político: The People United Will Never Be Defeated! (1975) son 36 variaciones sobre la canción chilena. Coming Together (1972) usa cartas de un preso de Attica.",
+  claves:["Westfield 1938 – Montiano 2021","Musica Elettronica Viva","The People United... (1975)","Escritos sobre improvisación"]},
+"Alvin Curran": {bio:"Compositor de Providence, en Roma desde 1965 y cofundador de MEV. Ha trabajado con grabaciones de campo, sintetizador y espacios enormes: Maritime Rites (1984) usa sirenas de barcos. Profesor en Mills College.",
+  claves:["Providence 1938","MEV","Canti Illuminati; Maritime Rites","Electrónica, espacio y paisaje sonoro"]},
+"Richard Teitelbaum": {bio:"Compositor y sintetista de Nueva York. Llevó uno de los primeros Moog a la improvisación en vivo con MEV. Hizo música con ondas cerebrales y colaboró mucho con Anthony Braxton. Profesor en Bard College.",
+  claves:["Nueva York 1939 – 2020","Moog en directo con MEV","Duos con Braxton","Electrónica interactiva"]},
+"Franco Evangelisti": {bio:"Compositor romano, figura de Darmstadt. En 1964 fundó el Gruppo di Improvvisazione Nuova Consonanza para investigar la improvisación desde la música contemporánea. Escribió Dal silenzio a un nuovo mondo sonoro.",
+  claves:["Roma 1926 – 1980","Fundador del GINC (1964)","Improvisación colectiva de compositores","Libro: Dal silenzio..."]},
+"Ennio Morricone": {bio:"El gran compositor de cine (Leone, Pasolini, Tornatore) fue también trompetista del Gruppo di Improvvisazione Nuova Consonanza desde 1965. Varias bandas sonoras de giallo de los setenta usan sus técnicas.",
+  claves:["Roma 1928 – 2020","Trompeta en el GINC","The Feed-Back (1970)","La vanguardia en el cine"]},
+"Takehisa Kosugi": {bio:"Violinista y compositor japonés. En 1960 cofundó Group Ongaku, que improvisaba con objetos y cinta. Pasó por Fluxus en Nueva York y en 1969 fundó los Taj Mahal Travellers, de drones larguísimos. Desde 1995 fue director musical de la compañía de Merce Cunningham, tras David Tudor.",
+  claves:["Tokio 1938 – Ashiya 2018","Group Ongaku (1960)","Taj Mahal Travellers","Director musical de Cunningham"]},
+"Masayuki Takayanagi": {bio:"Guitarrista japonés que venía del cool jazz (admiraba a Lennie Tristano). Llegó a una música de ruido y feedback a todo volumen con New Direction Unit. Llamaba Mass Projection y Gradually Projection a sus dos modos de tocar.",
+  claves:["Tokio 1932 – 1991","New Direction Unit","Mass Projection / Gradually Projection","Ruido y volumen extremo"]},
+"Kaoru Abe": {bio:"Saxofonista alto japonés de intensidad legendaria, que tocaba sobre todo solo. Grabó con Takayanagi y en 1978 en duo con Derek Bailey durante su gira por Japón. Murió a los 29 años por una sobredosis.",
+  claves:["Kawasaki 1949 – Tokio 1978","Saxo alto solo","Duo con Derek Bailey (1978)","Mito de la escena japonesa"]},
+"Motoharu Yoshizawa": {bio:"Contrabajista japonés, pionero del contrabajo solo y constructor de sus propios contrabajos eléctricos verticales. Grabó en duo con Barre Phillips (Oh My, Those Boys, 1994).",
+  claves:["Tokio 1931 – 1998","Contrabajo solo","Instrumentos de diseño propio","Duo con Barre Phillips"]},
+"Keiji Haino": {bio:"Guitarrista, cantante y multiinstrumentista japonés. Influido por Artaud, el blues y el rock psicodélico, fundó Fushitsusha (1978). Su voz pasa del susurro al alarido. Viste siempre de negro con gafas oscuras.",
+  claves:["Chiba 1952","Fushitsusha","Voz, guitarra y ruido","Watashi Dake? (1981)"]},
+"Merzbow (Masami Akita)": {bio:"Masami Akita tomó el nombre de la Merzbau de Kurt Schwitters. Es la referencia mundial del noise japonés, con cientos de discos de ruido electrónico masivo. Es activista por los derechos de los animales.",
+  claves:["Tokio 1956","Noise japonés","Pulse Demon (1996)","El ruido como material total"]}
+});
+Object.assign(FICHAS.m, {
+"John Zorn": {bio:"Saxofonista y compositor neoyorquino, motor de la escena Downtown. Desde 1977 escribe game pieces: reglas, tarjetas y señales que organizan la improvisación sin fijar las notas. Cobra (1984) es la más célebre. Lideró Naked City y Masada, fundó el sello Tzadik (1995) y el club The Stone. Es un puente entre free, hardcore, música judía, cine y vanguardia.",
+  claves:["Nueva York 1953","Game pieces: Cobra (1984)","Naked City; Masada","Sello Tzadik; club The Stone"]},
+"Butch Morris": {bio:"Cornetista de Los Ángeles que inventó la conduction: un vocabulario de gestos con el que un director da forma en tiempo real a una orquesta de improvisadores. Conduction #1 fue en 1985. Dirigió más de 190 conductions en todo el mundo, con músicos de jazz, música clásica y tradiciones de todo el mundo.",
+  claves:["Long Beach 1947 – Nueva York 2013","Conduction (desde 1985)","Current Trends in Racism in Modern America (1986)","El director como improvisador"]},
+"Pauline Oliveros": {bio:"Compositora y acordeonista de Houston. Cofundó el San Francisco Tape Music Center (1962), escribió las Sonic Meditations (1971) y en 1988 grabó Deep Listening en una cisterna con 45 segundos de reverberación. De ahí nació su práctica de Deep Listening: escuchar todo, siempre, como forma de atención y de comunidad. Fue también pionera feminista y queer en la música.",
+  claves:["Houston 1932 – Kingston (NY) 2016","San Francisco Tape Music Center","Sonic Meditations (1971)","Deep Listening (1988)"]},
+"Walter Thompson": {bio:"Compositor y saxofonista estadounidense que creó en 1974 el Soundpainting, un lenguaje de signos con más de mil gestos para componer en vivo con músicos, bailarines, actores y artistas visuales. Se enseña en conservatorios de todo el mundo, también en España.",
+  claves:["Estados Unidos, 1952","Soundpainting (1974)","Gestos para música, danza y teatro","Muy usado en talleres de improvisación"]},
+"Ikue Mori": {bio:"Japonesa llegada a Nueva York en 1977, fue batería del grupo no wave DNA con Arto Lindsay. Después pasó a las cajas de ritmos y luego al ordenador portátil, con el que improvisa sonidos electrónicos muy detallados. Es habitual del círculo de John Zorn.",
+  claves:["Tokio 1953","DNA (no wave)","Cajas de ritmos y portátil","Electrónica improvisada"]},
+"Elliott Sharp": {bio:"Guitarrista y compositor de la escena Downtown, también en la no wave. Compone con fractales y series de Fibonacci y toca guitarras de doble mástil. Lideró Carbon y Terraplane.",
+  claves:["Cleveland 1951","No wave y Downtown","Composición con fractales","Guitarra de técnicas extendidas"]},
+"Eugene Chadbourne": {bio:"Guitarrista y banjista que mezcla country, punk, protesta e improvisación libre, a veces tocando con un rastrillo. Fue del grupo Shockabilly y participó en las primeras game pieces de Zorn. Tiene mucho humor.",
+  claves:["Mount Vernon (NY) 1954","Shockabilly","Country, punk y free","Primeras game pieces de Zorn"]},
+"Radu Malfatti": {bio:"Trombonista austriaco que tocó free energético, por ejemplo en la Brotherhood of Breath de Chris McGregor. En los noventa dio un giro radical hacia el silencio: sonidos mínimos separados por largas pausas. Se unió al colectivo Wandelweiser y es una de las referencias del reduccionismo.",
+  claves:["Innsbruck 1943","Del free al silencio","Wandelweiser","Trombón casi inaudible"]},
+"Axel Dörner": {bio:"Trompetista alemán, en Berlín desde los noventa. Toca con aire, ruido de válvulas, trompeta de vara y electrónica. Es figura central de la Echtzeitmusik y también toca a Monk con Die Enttäuschung.",
+  claves:["Colonia 1964","Echtzeitmusik","Trompeta de aire y ruido","Die Enttäuschung"]},
+"Burkhard Beins": {bio:"Percusionista berlinés de Polwechsel y Phosphor. Trabaja con objetos sobre el tambor, fricción y resonancia. Coeditó el libro sobre la Echtzeitmusik de Berlín.",
+  claves:["Alemania 1964","Polwechsel; Phosphor","Percusión de fricción y objetos","Coeditor de Echtzeitmusik Berlin"]},
+"Andrea Neumann": {bio:"Música berlinesa que desmontó un piano y toca solo su arpa interior (el marco y las cuerdas) con objetos, amplificada y conectada a una mesa de mezclas. Figura de la Echtzeitmusik y coeditora del libro sobre la escena.",
+  claves:["Alemania 1968","Innenklavier (interior de piano)","Phosphor","Coeditora de Echtzeitmusik Berlin"]},
+"Annette Krebs": {bio:"Guitarrista berlinesa que toca la guitarra sobre una mesa con objetos, preparaciones y electrónica, en la línea de Keith Rowe.",
+  claves:["Alemania 1967","Guitarra de mesa electroacústica","Echtzeitmusik","Línea Keith Rowe"]},
+"Werner Dafeldecker": {bio:"Contrabajista vienés, cofundador de Polwechsel (1993) con Michael Moser. Ha pasado del contrabajo a la electrónica y la composición. Dirige el sello Durian.",
+  claves:["Viena 1964","Cofundador de Polwechsel","Contrabajo y electrónica","Sello Durian"]},
+"Rhodri Davies": {bio:"Arpista galés que toca el arpa preparada, eléctrica y con arcos, ventiladores y objetos. Miembro de IST y de la escena londinense de nueva escucha.",
+  claves:["Aberystwyth 1971","Arpa preparada y eléctrica","IST","New London Silence"]},
+"Mark Wastell": {bio:"Chelista y percusionista británico que acabó centrado en el gong amplificado. Fundador del sello Confront. Miembro de IST y The Sealed Knot.",
+  claves:["Reino Unido 1968","IST; The Sealed Knot","Gong y chelo","Sello Confront"]},
+"Michael Pisaro": {bio:"Compositor y guitarrista de Buffalo, miembro del colectivo Wandelweiser. Escribe partituras de silencio, sonidos largos y grabaciones de campo, muchas veces para improvisadores. Profesor en CalArts y fundador del sello Gravity Wave.",
+  claves:["Buffalo 1961","Wandelweiser","July Mountain (2010)","Sello Gravity Wave"]},
+"Sachiko M": {bio:"Música de Tokio que usa un sampler sin muestras: solo sus tonos de prueba, ondas sinusoidales muy agudas y clics. Formó Filament con Otomo Yoshihide y es la figura emblemática del onkyo.",
+  claves:["Japón 1973","Sampler sin muestras","Sine Wave Solo (1999)","Filament"]},
+"Otomo Yoshihide": {bio:"Guitarrista y tocadiscos de Yokohama, criado en Fukushima. En los noventa lideró Ground Zero, de ruido y collage. Luego giró hacia el onkyo con Filament y la Otomo Yoshihide's New Jazz Orchestra. Compuso la banda sonora de la serie Amachan (2013) y tras el desastre de 2011 creó el Proyecto Fukushima!",
+  claves:["Yokohama 1959","Ground Zero; Filament","Tocadiscos sin discos","Proyecto Fukushima!"]},
+"Toshimaru Nakamura": {bio:"Músico de Tokio que toca una mesa de mezclas sin entradas: conecta salidas a entradas y modela el feedback. Lo hace desde finales de los noventa. Weather Sky con Keith Rowe es clave.",
+  claves:["Tokio 1962","No-input mixing board","Weather Sky (2001)","Onkyo"]},
+"Taku Sugimoto": {bio:"Guitarrista japonés que llevó la improvisación casi al silencio: notas aisladas separadas por largas pausas. Fue clave en la escena de Off Site y luego se acercó a Wandelweiser.",
+  claves:["Japón 1965","Off Site","Guitarra y silencio","Conexión con Wandelweiser"]},
+"Ami Yoshida": {bio:"Vocalista de Tokio que produce sonidos minúsculos con la garganta y la boca, y su howling, aullidos agudísimos. Forma Astro Twin con Sachiko M.",
+  claves:["Japón 1976","Voz microscópica","Cosmos (2003)","Astro Twin"]},
+"Juan Hidalgo": {bio:"Compositor canario que conoció a Cage en Darmstadt en 1958 y lo trató en Milán. En 1964 fundó Zaj en Madrid con Walter Marchetti y Ramón Barce: conciertos de acción, objetos y silencio en plena dictadura. Es la raíz conceptual de la vanguardia experimental española.",
+  claves:["Las Palmas de Gran Canaria 1927 – 2018","Fundador de Zaj (1964)","Cage y Fluxus","Acción, objeto y silencio"]},
+"Agustí Fernández": {bio:"Pianista mallorquín, el improvisador más reconocido de Cataluña. Ha tocado con Kowald, Bailey, Evan Parker y Barry Guy, y forma parte del Evan Parker Electro-Acoustic Ensemble y la Barry Guy New Orchestra. Tiene más de setenta discos (Psi, Maya). Mentor de Albert Cirera y Ramon Prats, con quienes forma el Liquid Trio. Enseña improvisación en la ESMUC.",
+  claves:["Palma 1954","Aurora con Barry Guy y Ramón López","Premi Nacional de Cultura (2013)","Profesor de improvisación en la ESMUC"]},
+"Ramón López": {bio:"Batería y tablista alicantino, en París desde 1985. Estudió tabla con maestros indios y la enseñó en el Conservatorio de París. Ha tocado con flamencos (Carmen Linares, Chano Domínguez) y con Rashied Ali, Roscoe Mitchell, Archie Shepp y Barry Guy. Fue batería de la Orchestre National de Jazz (1997–2000). Forma el trío Aurora con Guy y Agustí Fernández.",
+  claves:["Alicante 1961","En París desde 1985","Batería, tabla y flamenco","Trío Aurora"]},
+"Wade Matthews": {bio:"Improvisador electroacústico estadounidense afincado en Madrid. Estudió viento en el New England Conservatory y se doctoró en composición en Columbia, donde estudió síntesis electrónica con Mario Davidovsky. Toca vientos, electrónica digital, grabaciones procesadas y objetos amplificados. Ha tocado en cinco continentes y da talleres en Europa y Latinoamérica. Su libro Improvisando (2012) es una referencia en castellano.",
+  claves:["EE.UU., afincado en Madrid","Doctor en composición (Columbia)","Libro: Improvisando (2012)","Shortcuts con Blanca Regina (2021)"]},
+"Chefa Alonso": {bio:"Saxofonista soprano y percusionista española, afincada en Madrid. Se doctoró en 2007 en Brunel University (Londres) con una tesis sobre improvisación libre y composición. En Londres formó parte de la London Improvisers Orchestra y tocó en duo con el batería Tony Marsh hasta 2009. En 2009 volvió a Madrid, donde dirige orquestas de improvisadores, da clases y tiene grupos como Sin Red (poesía e improvisación) y Uz. También toca en duo con el pianista y clavicordista Albert Kaul. Su libro (2008) es un manual de referencia.",
+  claves:["Madrid","Doctorado en improvisación (Brunel, 2007)","London Improvisers Orchestra","Libro: Improvisación libre (2008)"]},
+"Ricardo Tejero": {bio:"Saxofonista, clarinetista y compositor madrileño que vivió unos diez años en Londres. Allí fundó en 2007 el Ensemble Progresivo, con músicos de la London Improvisers Orchestra, para combinar improvisación y marcos compositivos. Ha trabajado en improvisación, jazz y danza. De vuelta en Madrid, forma Duo Bruo con Paloma Carrasco.",
+  claves:["Madrid","Una década en Londres","Ensemble Progresivo (2007)","Duo Bruo"]},
+"Paloma Carrasco": {bio:"Pianista y violonchelista afincada en Madrid, de formación clásica, dedicada a la improvisación libre desde 2003. Forma Duo Bruo con Ricardo Tejero. Impulsa intersecciones·madrid, un colectivo de improvisación multidisciplinar que quiere crear red internacional y apoyar a la comunidad local. Cita al contrabajista Barre Phillips como una de sus grandes influencias.",
+  claves:["Madrid","Piano y violonchelo","Duo Bruo; intersecciones·madrid","Influencia: Barre Phillips"]},
+"Albert Cirera": {bio:"Saxofonista catalán (tenor y soprano) afincado en Lisboa. Desde hace casi veinte años forma Duot con Ramon Prats y, con su mentor Agustí Fernández, el Liquid Trio. Lidera Tres Tambors y el sexteto Kamarilla. En Lisboa toca con Hernani Faustino, Gabriel Ferrandini y Carlos Zingaro. Ha grabado en solitario Lisboa's Work.",
+  claves:["Cataluña; vive en Lisboa","Duot; Liquid Trio","Tres Tambors; Kamarilla","Puente con la escena portuguesa"]},
+"Ramon Prats": {bio:"Batería catalán, mitad de Duot con Albert Cirera y miembro del Liquid Trio de Agustí Fernández. Toca con músicos locales y con visitantes internacionales como Mats Gustafsson o Seamus Blake. Tiene un proyecto en solitario, Solot.",
+  claves:["Cataluña","Duot; Liquid Trio","Solot (batería solo)","Con Mats Gustafsson"]}
+});
+Object.assign(FICHAS.d, {
+"Pierrot lunaire": {porque:"Ciclo de 21 melodramas sobre poemas de Albert Giraud para voz y cinco instrumentistas. Es una de las obras fundadoras de la música atonal, y su plantilla de flauta, clarinete, violín, chelo y piano se convirtió en el modelo del grupo de cámara moderno.",
+  escucha:"Fíjate en la voz: no canta ni habla, sino que hace Sprechstimme, una voz hablada con altura. Esa zona entre canto y palabra es la que exploran después Maggie Nicols o Phil Minton. Escucha también cómo los instrumentos cambian de combinación en cada número."},
+"Sinfonía op. 21": {porque:"Una sinfonía de unos diez minutos, en dos movimientos. Es Webern en estado puro: cánones y palíndromos escondidos en una música que suena como puntos de luz aislados.",
+  escucha:"No busques melodías: una misma línea salta de un instrumento a otro, nota a nota (melodía de timbres). Atiende a los silencios entre sonidos, que aquí pesan tanto como las notas. Es la misma escucha que pide el SME o Derek Bailey."},
+"Le Marteau sans maître": {porque:"Obra emblemática del serialismo de posguerra, sobre poemas de René Char. Stravinsky la elogió. Su conjunto de contralto, flauta, guitarra, viola, vibráfono, xilorimba y percusión suena casi oriental.",
+  escucha:"Escucha los timbres: el vibráfono y la xilorimba recuerdan al gamelán y al balafón, y la guitarra suena como un koto. El ritmo cambia sin pulso regular. Compara esta libertad totalmente escrita con la libertad improvisada del free."},
+"Sonatas and Interludes": {porque:"Ciclo de veinte piezas (1946–48) para piano preparado: tornillos, gomas y monedas entre las cuerdas transforman el piano en una orquesta de percusión. Cage se inspiró en la estética india de las emociones (rasa).",
+  escucha:"Olvida que es un piano: escúchalo como un gamelán. Cada tecla suena distinta según lo que tenga entre las cuerdas. Es el origen de todos los pianos y guitarras preparados de la improvisación, de Rowe a Agustí Fernández."},
+"4'33''": {porque:"Tres movimientos en los que el intérprete no toca. David Tudor la estrenó en Woodstock en agosto de 1952. Es la obra que convirtió el silencio y el ruido ambiente en material musical.",
+  escucha:"La mejor manera de conocerla es hacerla: siéntate cuatro minutos y treinta y tres segundos y escucha la habitación, la calle, tu respiración. Lo que oigas es la obra. El reduccionismo y el onkyo parten de esta experiencia."},
+"December 1952": {porque:"Una página con rectángulos horizontales y verticales de distintos grosores, sin pentagrama. Es una de las primeras partituras gráficas y el modelo de Treatise de Cardew.",
+  escucha:"Busca varias versiones: cada grupo la lee de forma distinta. Fíjate en qué deciden los músicos, cómo traducen grosor en intensidad o posición en altura. Es improvisación con un mapa."},
+"Rothko Chapel": {porque:"Escrita para la capilla ecuménica de Houston decorada con lienzos de Mark Rothko. Viola, celesta, percusión y coro sin texto en una música casi inmóvil. Es una de las obras más accesibles de Feldman.",
+  escucha:"Fíjate en la dinámica, siempre muy suave, y en cómo el tiempo parece detenerse. Al final la viola toca una melodía casi hebrea que Feldman escribió de adolescente: el único momento lírico, como una ventana. Escúchala en silencio y sin distracciones."},
+"Gesang der Jünglinge": {porque:"La primera obra maestra de la música electrónica (1955–56): la voz grabada de un niño cantando un texto bíblico se funde con sonidos sintéticos. Se pensó para varios grupos de altavoces alrededor del público.",
+  escucha:"Sigue la voz del niño: a veces se entienden las palabras y a veces la voz se disuelve en sonido electrónico. Esa frontera entre sonido reconocible y sonido abstracto es la que explora la improvisación electroacústica."},
+"Threnody to the Victims of Hiroshima": {porque:"Obra para 52 instrumentos de cuerda que en origen se llamaba 8'37'', su duración. Clusters, cuartos de tono, golpes en la caja y sonidos detrás del puente. Es el manifiesto del sonorismo polaco.",
+  escucha:"No hay melodía: escucha bloques de sonido que se expanden y contraen como masas. Compara con Globe Unity o Machine Gun: la misma idea de densidad colectiva, pero escrita nota a nota."},
+"Mikrophonie I": {porque:"Un solo tam-tam gigante, dos músicos que lo frotan, golpean y raspan con objetos, dos micrófonos que se mueven sobre su superficie y dos técnicos que filtran el sonido en vivo. Es la electrónica en vivo hecha método.",
+  escucha:"Todo sale de un solo objeto. Fíjate en la variedad de sonidos: rugidos, chirridos, voces. Es la misma lógica que la percusión de Eddie Prévost con arco sobre el gong o el gong amplificado de Mark Wastell."},
+"Aus den sieben Tagen": {porque:"Quince piezas de texto (1968), sin notas, que Stockhausen llamó «música intuitiva». Por ejemplo: toca una vibración al ritmo de tu cuerpo. Las grabaciones de 1969 las tocan músicos como Vinko Globokar y Michel Portal, que venían de la improvisación.",
+  escucha:"Escúchalo junto a un disco de AMM o del SME del mismo año. Pregúntate qué cambia por tener un texto del compositor delante: la autoría es justo la tensión que llevó a Cardew a romper con Stockhausen."},
+"Pression": {porque:"Obra para violonchelo solo (1969–70) en la que casi no hay notas convencionales. El chelista frota el cuerpo del instrumento, las cuerdas detrás del puente y la cola del arco. Es el manifiesto de la música concreta instrumental de Lachenmann.",
+  escucha:"Mírala en vídeo: ver cómo se producen los sonidos es la mitad de la obra. Compara con un chelista improvisador como Honsinger o Reijseger, o con Paloma Carrasco: muchas técnicas son las mismas, pero aquí están escritas."},
+"Persepolis": {porque:"La obra electroacústica más larga de Xenakis, de casi una hora, en cinta de ocho pistas. Es uno de sus polytopes, espectáculos de sonido, luz y espacio. Se estrenó el 26 de agosto de 1971 de noche entre las ruinas de Persépolis, en el Festival de las Artes de Shiraz, con 59 altavoces, rayos láser, hogueras, faros apuntando al cielo y unos 130 niños con antorchas subiendo la colina. Es también un caso polémico: el festival lo patrocinaba la monarquía del Sha, y Xenakis fue criticado por participar. Rompió con el régimen en 1976. Su masa de ruido anticipa el noise: en 2002 se publicó con remezclas de Merzbow, Otomo Yoshihide y Ryoji Ikeda, entre otros.",
+  escucha:"Todo nace de sonidos grabados (campanillas de cerámica, un gong japonés, viento, un avión, timbales, cartón plegado) transformados hasta volverse irreconocibles. Intenta reconocer alguno. Fíjate en que no hay melodía ni ritmo: hay densidad, que crece y decrece como un clima. Se pensó para ocho canales al aire libre: escúchalo a buen volumen y, si puedes, con altavoces y no con auriculares, para sentir el espacio. Compáralo con Machine Gun, Fushitsusha o Merzbow. Ojo con la edición: algunas versiones en CD tienen la velocidad mal y duran de más; la de Karlrecords (2022) se mezcló de nuevo desde las cintas originales."},
+"Trio A": {porque:"Unos cinco minutos de movimiento continuo, sin acentos ni clímax, en los que la bailarina nunca mira al público. Forma parte de The Mind Is a Muscle (1966) y es la pieza clave de la danza posmoderna.",
+  escucha:"Búscala en vídeo. Fíjate en la energía uniforme y en la ausencia de exhibición, el mismo rechazo del virtuosismo que hay en AMM o en Bailey."},
+"Accumulation": {porque:"Trisha Brown añade un gesto, vuelve al principio, añade otro, y así sucesivamente. Es una estructura simple que genera complejidad.",
+  escucha:"En vídeo: sigue cómo la frase crece, como una partitura de reglas. Compara con las game pieces de Zorn o con los ejercicios de John Stevens."},
+"Magnesium": {porque:"Presentada en 1972 en el gimnasio de Oberlin College: un grupo de hombres se caen, chocan y ruedan unos sobre otros. Es el origen de la contact improvisation.",
+  escucha:"Busca el vídeo y fíjate en la escucha física: cada cuerpo responde al peso del otro, como dos improvisadores responden a un sonido."},
+"Allen's Line": {porque:"No es un disco sino la compañía de Julyen Hamilton, con la que crea y actúa la obra en el mismo momento junto a bailarines, iluminadores y músicos.",
+  escucha:"Busca vídeos de Hamilton con músicos como Barre Phillips, Tristan Honsinger o Michael Moore. Fíjate en cómo cuerpo, palabra y sonido se responden sin jerarquía, y compáralo con lo que viviste en su curso."},
+"The Shape of Jazz to Come": {porque:"El disco que anunció el free jazz, con Don Cherry, Charlie Haden y Billy Higgins. Abre con «Lonely Woman», uno de los temas más versionados del jazz moderno.",
+  escucha:"No hay piano: sin acordes de fondo, el contrabajo y los solistas son libres de moverse. Fíjate en cómo Haden sigue a Ornette en vez de marcar una armonía fija. Los temas siguen ahí, pero la improvisación ya no depende de ellos."},
+"Free Jazz: A Collective Improvisation": {porque:"Dos cuartetos tocan a la vez, uno en cada canal estéreo, durante unos 37 minutos: Coleman, Cherry, Scott LaFaro y Billy Higgins a un lado; Dolphy, Freddie Hubbard, Charlie Haden y Ed Blackwell al otro. Su título dio nombre al movimiento. La portada reproduce un cuadro de Pollock.",
+  escucha:"Usa auriculares y separa los dos canales. Escucha cómo cada solo está rodeado de comentarios de los demás. Busca el solo de clarinete bajo de Dolphy. Es la primera improvisación colectiva larga del jazz."},
+"Out to Lunch!": {porque:"La obra maestra de Dolphy, con Freddie Hubbard, Bobby Hutcherson, Richard Davis y Tony Williams. «Hat and Beard» es un homenaje a Monk, y «Gazzelloni» lleva el nombre del flautista de la vanguardia europea Severino Gazzelloni.",
+  escucha:"Fíjate en el vibráfono de Hutcherson: en lugar de acordes, deja notas flotando. La batería de Williams desplaza el pulso. Y escucha los saltos enormes del clarinete bajo de Dolphy."},
+"Last Date": {porque:"Grabado en Hilversum en junio de 1964, poco antes de la muerte de Dolphy, con Misha Mengelberg, Jacques Schols y Han Bennink. Es el documento del encuentro entre el free estadounidense y los futuros fundadores del ICP. Termina con la voz de Dolphy diciendo que la música, cuando acaba, se va al aire y nunca se puede volver a atrapar.",
+  escucha:"Escucha el piano anguloso de Mengelberg: ya suena como el ICP. La flauta en «You Don't Know What Love Is» es una de las mejores grabaciones de Dolphy. Y quédate hasta el final para oír su frase."},
+"Spiritual Unity": {porque:"Trío con Gary Peacock y Sunny Murray, publicado en ESP-Disk. Se considera el gran manifiesto del free de los sesenta. «Ghosts» es una melodía casi infantil que estalla.",
+  escucha:"Fíjate en la batería de Murray: no marca un pulso, crea una nube de platillos. Y en el vibrato enorme de Ayler, que lleva el saxo al límite del grito. Brötzmann viene de aquí."},
+"Ascension": {porque:"Coltrane reúne a once músicos de la New Thing, entre ellos Pharoah Sanders, Archie Shepp, John Tchicai, Marion Brown y Freddie Hubbard, en una pieza de unos cuarenta minutos que alterna tutti y solos.",
+  escucha:"Distingue los momentos de masa colectiva de los solos. Fíjate en cómo los tutti funcionan como olas. Es el puente directo hacia las grandes orquestas libres europeas como la Globe Unity."},
+"Unit Structures": {porque:"Disco de Cecil Taylor para Blue Note, con dos contrabajos (Henry Grimes y Alan Silva), Jimmy Lyons y Andrew Cyrille. Taylor escribió para la contraportada un texto-poema sobre su método.",
+  escucha:"La música está hecha de bloques y células que se combinan. Fíjate en el piano percusivo y en cómo los dos contrabajos crean una textura en lugar de una línea."},
+"Sound": {porque:"El primer disco de la AACM (1966). Roscoe Mitchell, Lester Bowie y Malachi Favors usan el silencio, la armónica, la flauta dulce y los pequeños instrumentos como material.",
+  escucha:"Escucha los espacios vacíos: frente a la intensidad del free neoyorquino, aquí hay pausas, sonidos sueltos y humor. Es otro camino, más cercano a lo que hará la improvisación europea."},
+"Levels and Degrees of Light": {porque:"El primer disco de Muhal Richard Abrams (1968), con músicos de la AACM como Anthony Braxton y Leroy Jenkins, voz y poesía.",
+  escucha:"Fíjate en cómo se alternan voz, órgano y conjunto, y en la mezcla de espiritualidad, composición e improvisación que define a la AACM."},
+"For Alto": {porque:"Doble disco de 1969, el primero de saxo solo de la historia. Cada pieza está dedicada a alguien, entre ellos John Cage y Cecil Taylor.",
+  escucha:"Cada pieza explora un solo material: multifónicos, staccato, sonidos chillones o líneas largas. Escúchalo como un catálogo de lo que un saxo puede hacer solo. Abrió la puerta a Saxophone Solos de Evan Parker."},
+"A Jackson in Your House": {porque:"Grabado en París en 1969, cuando el Art Ensemble vivía en Francia. Recorre la historia del jazz con humor, parodia y ritual.",
+  escucha:"Fíjate en los cambios bruscos: dixieland, bebop, marcha, ruido y silencio en pocos minutos. Es teatro sonoro. Compáralo con el humor holandés del ICP."},
+"Urban Bushmen": {porque:"Doble disco grabado en directo en 1980 y publicado en ECM, con Famoudou Don Moye a la batería. Muestra al Art Ensemble en plena madurez.",
+  escucha:"Atiende a la percusión colectiva y a los pequeños instrumentos al principio, y a cómo de ahí nacen los temas. Es el lema «Great Black Music: Ancient to the Future» en acción."},
+"Karyobin": {porque:"El SME de 1968 con Evan Parker, Derek Bailey, Kenny Wheeler, Dave Holland y John Stevens. Es el disco que define la improvisación «atomista» británica.",
+  escucha:"No hay solista: cinco músicos tocan gestos breves que se responden sin parar. Fíjate en lo bajito que toca Stevens y en cómo Bailey ya rompe la guitarra en puntos sueltos. Escúchalo como una conversación."},
+"The Topography of the Lungs": {porque:"El primer disco del sello Incus (1970), con Parker, Bailey y Han Bennink. Es la declaración de independencia de los improvisadores británicos. Tristan Honsinger se mudó a Holanda tras escucharlo.",
+  escucha:"Fíjate en el contraste: la energía de Bennink, el saxo áspero de Parker y la guitarra eléctrica de Bailey, que ya suena como nadie."},
+"Solo Guitar": {porque:"Primer disco solo de Bailey (1971). En su edición original, una cara contenía composiciones de Gavin Bryars, Misha Mengelberg y Willem Breuker, y la otra improvisaciones.",
+  escucha:"Compara las piezas compuestas con las improvisadas: ¿se nota la diferencia? Atiende al vocabulario de Bailey: armónicos, intervalos amplios, cuerdas golpeadas, volumen de pedal."},
+"Iskra 1903": {porque:"Trío de Paul Rutherford (trombón), Barry Guy (contrabajo) y Derek Bailey (guitarra), sin batería. El nombre viene del periódico de Lenin.",
+  escucha:"Sin batería, la música es textura pura. Escucha cómo el trombón vocalizado de Rutherford se mezcla con el contrabajo con arco de Guy y la guitarra de Bailey."},
+"Saxophone Solos": {porque:"Disco de Evan Parker (1975–76) que fija su técnica de saxo solo: respiración circular, multifónicos y digitaciones rapidísimas.",
+  escucha:"Con la respiración circular el sonido nunca para. Fíjate en cómo un solo saxo parece tocar varias voces a la vez: una nota grave fija y arabescos agudos. Escúchalo con atención y a buen volumen."},
+"AMMMusic": {porque:"El primer disco de AMM (1967), con Keith Rowe, Eddie Prévost, Lou Gare, Cornelius Cardew y Lawrence Sheaff. La edición original incluía aforismos del grupo.",
+  escucha:"Intenta saber quién toca qué: casi nunca es posible, y esa es la idea. Escucha la música como una masa en la que se disuelven los individuos."},
+"The Crypt – 12th June 1968": {porque:"Concierto completo grabado en 1968 en un sótano londinense, con Cardew y Christopher Hobbs. Es el AMM más denso, ruidoso y largo.",
+  escucha:"No hay pausas ni temas: escucha el sonido como un clima que cambia lentamente. Es la mejor prueba de la idea «laminar»: capas superpuestas en lugar de diálogo."},
+"Generative Themes": {porque:"Primer disco del AMM en trío, con Rowe, Prévost y el pianista John Tilbury (1983).",
+  escucha:"Fíjate en el piano de Tilbury: resonancias, pedal y notas aisladas que vienen de Feldman. Con él AMM se vuelve más transparente y silenciosa."},
+"Laminal": {porque:"Triple CD que reúne conciertos de 1969, 1982 y 1994. Su título dio nombre a la idea de improvisación «laminar».",
+  escucha:"Escucha los tres discos en orden para seguir la evolución del grupo: del ruido de 1969 a la transparencia de los noventa."},
+"Globe Unity": {porque:"Primer disco de la Globe Unity Orchestra (1966), con composiciones de Schlippenbach y Manfred Schoof y casi toda la vanguardia alemana. Se estrenó en los Berliner Jazztage.",
+  escucha:"Fíjate en el contraste entre lo escrito y lo libre: secciones compuestas casi como música contemporánea y explosiones colectivas. Escucha con Threnody de Penderecki al lado."},
+"Machine Gun": {porque:"El gran manifiesto del free europeo (1968): tres saxos (Brötzmann, Evan Parker, Willem Breuker), dos contrabajos, dos baterías (Bennink y Sven-Åke Johansson) y el piano de Fred Van Hove. Brötzmann lo autoeditó, y fue el embrión de FMP. Grabado en el año de las protestas estudiantiles.",
+  escucha:"Escucha el volumen y la densidad, pero también los temas cortos y casi marciales que aparecen entre el caos. No es ruido sin forma: hay estructura. Aguanta los primeros minutos."},
+"Balls": {porque:"El trío de Brötzmann, Fred Van Hove y Han Bennink en FMP (1970). Es uno de los grupos más importantes del free europeo.",
+  escucha:"Fíjate en el humor y la teatralidad de Bennink frente a la intensidad de Brötzmann, y en el piano de Van Hove, que hace de colchón y de muro."},
+"Pakistani Pomade": {porque:"Primer disco del trío de Schlippenbach con Evan Parker y Paul Lovens, que lleva más de cincuenta años tocando junto.",
+  escucha:"Escucha cómo los tres funcionan como un solo organismo. El tenor de Parker es aquí más jazzístico que en sus solos. Atiende a la batería de texturas de Lovens."},
+"Wilde Señoritas": {porque:"Disco de Irène Schweizer (1976) para FMP, de la etapa en que se convirtió en una de las voces centrales del free europeo.",
+  escucha:"Fíjate en el piano: energía de Cecil Taylor pero con melodía, humor y ritmos africanos. Schweizer tocó mucho con baterías sudafricanos como Louis Moholo."},
+"Journal Violone": {porque:"El primer disco de contrabajo solo de la historia del jazz (1969). Abrió un camino seguido por cientos de contrabajistas. Paloma Carrasco cita a Phillips como influencia.",
+  escucha:"Escucha el contrabajo como un instrumento completo: arco, pizzicato, golpes en la madera, armónicos. Fíjate en el lirismo, que nunca desaparece aunque la técnica sea radical."},
+"Music from Two Basses": {porque:"Duo de Barre Phillips y Dave Holland en ECM (1971), uno de los primeros discos de contrabajos sin otros instrumentos.",
+  escucha:"Intenta distinguir a los dos contrabajistas. Fíjate en cómo dos instrumentos graves logran un rango completo y en el diálogo de arcos."},
+"New Acoustic Swing Duo": {porque:"Primer disco del sello ICP (1967), de Willem Breuker y Han Bennink. Es el nacimiento de la escena holandesa.",
+  escucha:"Escucha el humor y la energía, y cómo aparecen fragmentos de swing y de música popular en medio de lo libre."},
+"Einepartietischtennis": {porque:"Duo de Misha Mengelberg y Han Bennink en directo (FMP, 1974). El título significa «un partido de ping-pong».",
+  escucha:"Es un partido: escucha cómo se lanzan ideas y se las devuelven. Fíjate en las citas de jazz antiguo, los silencios irónicos y el humor."},
+"Japan Japon": {porque:"La ICP Orchestra de los ochenta, cuando la anarquía de los inicios se convirtió en una orquesta con repertorio propio.",
+  escucha:"Fíjate en cómo pasan de partes compuestas a improvisación colectiva y de vuelta, con humor y swing. Es la «anarquía con reglas» de Mengelberg."},
+"Spacecraft": {porque:"Grabación de MEV de 1967, con electrónica casera, micrófonos de contacto sobre cristal y metal y uno de los primeros Moog. Rzewski explicó la idea: viajar fuera del «territorio» de cada músico.",
+  escucha:"Intenta adivinar de dónde sale cada sonido, aunque es casi imposible. Escucha la ausencia de líder: es la misma búsqueda de AMM, en Roma y con electrónica."},
+"The Feed-Back": {porque:"Disco del Gruppo di Improvvisazione Nuova Consonanza (1970) con Ennio Morricone. Mezcla improvisación de vanguardia con un ritmo casi rock.",
+  escucha:"Fíjate en el contraste entre la base rítmica regular y los sonidos de vanguardia encima. Es un puente entre la improvisación y el cine italiano de la época."},
+"MEV 40": {porque:"Caja de cuatro CD (2008) que recorre cuarenta años de Musica Elettronica Viva.",
+  escucha:"Compara las grabaciones de los sesenta con las del siglo XXI: cómo cambia la electrónica y cómo se mantiene la escucha colectiva."},
+"Music of Group Ongaku": {porque:"Grabaciones de 1960–61 de Group Ongaku (Takehisa Kosugi, Yasunao Tone, Mieko Shiomi y otros), publicadas en 1996. Es improvisación con objetos y cinta en Tokio, antes que casi nadie en Occidente.",
+  escucha:"Fíjate en la fecha: suena como AMM o Fluxus, pero es anterior. Escucha los objetos cotidianos, la cinta y el piano tratado como mueble."},
+"Gradually Projection": {porque:"Duo de Masayuki Takayanagi y Kaoru Abe grabado en 1970. «Gradually Projection» era el modo más contenido de Takayanagi, frente al ruido total de «Mass Projection».",
+  escucha:"Fíjate en la tensión contenida: dos músicos que podrían estallar pero se controlan. Y en el saxo alto de Abe, de una intensidad física única."},
+"July 15, 1972": {porque:"Concierto de los Taj Mahal Travellers de Takehisa Kosugi: drones larguísimos de violín, voces y electrónica con eco.",
+  escucha:"No esperes cambios rápidos: déjate llevar por el sonido. Escúchalo como un paisaje sonoro, cercano a La Monte Young."},
+"Watashi Dake?": {porque:"El primer disco solo de Keiji Haino (1981): voz, guitarra y silencio.",
+  escucha:"Atiende a la voz de Haino, que pasa del susurro al alarido, y a los silencios. Es más desnudo de lo que esperarías del ruido japonés."},
+"Fushitsusha": {porque:"Doble disco en directo (PSF, 1989) del trío de Keiji Haino. Es el gran disco del rock psicodélico de ruido japonés.",
+  escucha:"Escucha a volumen alto: lentas acumulaciones de guitarra que llegan a la saturación. Compáralo con Machine Gun: la misma energía, desde el rock."},
+"Current Trends in Racism in Modern America": {porque:"Grabación de Conduction #1 (1985), la primera conduction de Butch Morris, con John Zorn, Frank Lowe, Christian Marclay en tocadiscos y Tom Cora, entre otros.",
+  escucha:"Escucha los cambios bruscos: cada vez que Morris hace un gesto, la orquesta cambia de textura. Intenta imaginar al director. Compáralo con una improvisación libre sin director."},
+"Cobra": {porque:"La game piece más famosa de John Zorn (1984), grabada en estudio y en directo. Los músicos piden cambios con tarjetas y un apuntador los ordena.",
+  escucha:"Fíjate en la velocidad: bloques de pocos segundos que cambian constantemente, de jazz a ruido o a música de cine. Es una estructura para improvisar, no una partitura."},
+"Deep Listening": {porque:"Grabado en 1988 en una cisterna subterránea de Port Townsend (Washington) con unos 45 segundos de reverberación, con Pauline Oliveros (acordeón), Stuart Dempster (trombón, didgeridoo) y Panaiotis (voz). El nombre viene de bajar a la cisterna y se convirtió en toda una práctica.",
+  escucha:"Escucha dónde termina cada sonido: la reverberación hace que todo se mezcle con todo. Fíjate en los armónicos que aparecen solos. Es una buena entrada a la escucha profunda: escúchalo con los ojos cerrados."},
+"The Parachute Years": {porque:"Caja de siete CD (Tzadik, 1997) con las primeras game pieces de Zorn (1977–80), como Lacrosse, Pool, Hockey y Archery.",
+  escucha:"Escucha cómo nacen las reglas: sistemas de señales todavía experimentales que desembocarán en Cobra. Compara con Christian Wolff."},
+"Polwechsel": {porque:"Primer disco del grupo vienés (1995), con Werner Dafeldecker, Michael Moser, Radu Malfatti y Burkhard Stangl. Es el arranque del reduccionismo en Europa.",
+  escucha:"Música muy suave y lenta, entre composición e improvisación. Fíjate en los sonidos de fricción y en el silencio. Escúchalo a volumen bajo en una habitación tranquila."},
+"Filament 1": {porque:"Duo de Otomo Yoshihide y Sachiko M (1998). Es el disco que define el onkyo.",
+  escucha:"Atiende a las ondas sinusoidales agudas de Sachiko M y a los tocadiscos sin discos de Otomo. Escúchalo a volumen moderado: hay frecuencias muy agudas."},
+"Sine Wave Solo": {porque:"Disco solo de Sachiko M (1999): solo ondas sinusoidales y clics de un sampler sin muestras.",
+  escucha:"Escúchalo a volumen bajo y con cuidado con los auriculares. Fíjate en cómo las frecuencias agudas cambian según muevas la cabeza: el espacio y tu oído son parte de la música."},
+"No-Input Mixing Board": {porque:"Primer disco de Toshimaru Nakamura (2000) con su mesa de mezclas sin entradas, que genera sonido a partir de su propio feedback.",
+  escucha:"Todo viene de una mesa conectada a sí misma. Fíjate en cómo controla un sonido que por naturaleza es inestable."},
+"Weather Sky": {porque:"Duo de Keith Rowe y Toshimaru Nakamura (Erstwhile, 2001). Une AMM y onkyo, Londres y Tokio.",
+  escucha:"Piezas largas de zumbidos, radio y feedback. Fíjate en las transiciones lentísimas: la música cambia como el cielo, sin que lo notes."},
+"Cosmos": {porque:"Duo de Ami Yoshida y Sachiko M (Erstwhile, 2003). Es uno de los discos más extremos y polémicos del onkyo.",
+  escucha:"Casi nada sucede: sonidos minúsculos de voz y sinusoides agudas. Escúchalo a volumen moderado y sé paciente: es un ejercicio de atención."},
+"Aurora": {porque:"Trío de Barry Guy, Agustí Fernández y Ramón López (Maya, 2006). Une la escena británica con dos músicos españoles.",
+  escucha:"Es un trío de piano lírico y abierto. Fíjate en el diálogo entre el contrabajo de Guy y el piano de Fernández, y en la batería ligera de López."},
+"Hesitancy": {porque:"Disco del Ensemble Progresivo de Ricardo Tejero (Creative Sources, 2014), con músicos de la London Improvisers Orchestra.",
+  escucha:"Intenta distinguir qué está compuesto y qué es improvisado. Fíjate en cómo los marcos escritos dejan espacio a la improvisación."},
+"Goodbye Red Rose (2008/9)": {porque:"Duo de Chefa Alonso y Tony Marsh (Emanem, 2016) grabado en 2008 y 2009: en la serie Mopomoso del Red Rose, en Flim Flam (Londres) y en Huesca. El título y la portada recuerdan el Red Rose, demolido en 2013. Marsh murió en 2012.",
+  escucha:"Escucha las líneas largas y fluidas del saxo soprano de Chefa y cómo se mezclan con la percusión de Marsh. Fíjate en lo bien que se escuchan desde la primera nota."},
+"Marianne": {porque:"Segundo disco del Liquid Trio de Agustí Fernández con Albert Cirera y Ramon Prats. Muestra a la nueva generación catalana junto a su mentor.",
+  escucha:"La pieza central, «Zugegeben», dura unos diecinueve minutos. Fíjate en el equilibrio entre los tres y en el saxo de Cirera, con algo más de espacio solista."},
+"Episodes": {porque:"Duo Bruo de Ricardo Tejero y Paloma Carrasco (Creative Sources, 2017), grabado en Madrid: dieciséis piezas breves de improvisación libre.",
+  escucha:"Fíjate en los cambios de instrumento: piano o violonchelo, clarinete o saxo. Cada combinación cambia el diálogo. Escucha la sensibilidad para la cuerda grave de Carrasco, cercana a Barre Phillips."},
+"Haiku": {porque:"Quinto disco de Duot (2025), grabado en marzo de 2024 en el Teatre de Cal Eril de Guissona. Abre una etapa nueva del duo, centrada en ideas muy breves.",
+  escucha:"La pieza principal dura 35 minutos pero está hecha de piezas breves ordenadas tal como se grabaron, como haikus. Fíjate en las técnicas de soplo y percusión extendida y en lo concisa que es cada idea."}
+});
+Object.assign(FICHAS.l, {
+"El ruido eterno (The Rest Is Noise)": {porque:"Historia narrativa de la música del siglo XX escrita por el crítico de The New Yorker. Explica a Schoenberg, Stravinsky, la posguerra, Cage y el minimalismo en relación con la política y la sociedad. Está traducida al castellano (Seix Barral).",
+  fijate:"Lee los capítulos sobre Viena, Darmstadt y Cage para entender de dónde vienen las ideas que heredan los improvisadores. Busca en internet la lista de escuchas que acompaña al libro."},
+"Style and Idea": {porque:"Ensayos del propio Schoenberg, entre ellos «Composición con doce sonidos» y «Brahms el progresista».",
+  fijate:"Fíjate en cómo Schoenberg presenta su ruptura como una continuidad con la tradición. Es lo contrario de lo que hacen los improvisadores, que reivindican romper."},
+"Silence (trad.: Silencio)": {porque:"Conferencias y escritos de Cage (1961), algunos con una tipografía que es casi una partitura, como Lecture on Nothing. Incluye las anécdotas de Indeterminacy. Es uno de los libros más influyentes del arte del siglo XX.",
+  fijate:"Lee sin prisa y en voz alta: muchos textos están pensados como música. Fíjate en la idea de dejar que los sonidos sean ellos mismos y en sus historias zen."},
+"Experimental Music: Cage and Beyond": {porque:"El libro que definió la diferencia entre música experimental (Cage, Fluxus, Cardew, AMM, Scratch Orchestra) y vanguardia (Boulez, Stockhausen). Es de 1974 y su autor es el compositor Michael Nyman.",
+  fijate:"Busca los capítulos sobre improvisación, Cardew y AMM. Es uno de los pocos libros que ponen la improvisación británica al lado de la música escrita."},
+"No Such Thing as Silence: John Cage's 4'33''": {porque:"Un libro entero sobre una obra: su origen, su estreno y lo que cambió.",
+  fijate:"Fíjate en la influencia de las pinturas blancas de Rauschenberg y de la cámara anecoica de Harvard, donde Cage descubrió que el silencio absoluto no existe."},
+"Democracy's Body: Judson Dance Theater 1962–1964": {porque:"Crónica detallada de los conciertos del Judson Dance Theater. Es la referencia sobre el nacimiento de la danza posmoderna.",
+  fijate:"Fíjate en cómo los bailarines usaron métodos de Cage (azar, tareas, reglas) y en el ambiente colectivo, muy parecido al de los colectivos de músicos."},
+"Terpsichore in Sneakers": {porque:"Estudio clásico de la danza posmoderna estadounidense, con capítulos sobre Rainer, Paxton, Brown y Forti.",
+  fijate:"Úsalo como mapa de los coreógrafos de la ficha de danza. Fíjate en el concepto de «danza posmoderna» y en las listas de piezas."},
+"Sharing the Dance: Contact Improvisation and American Culture": {porque:"Estudio antropológico de la contact improvisation: cómo nació, cómo se transmite y qué valores sociales tiene.",
+  fijate:"Fíjate en la idea de comunidad y en las jams. Son las mismas cuestiones que en la improvisación musical: quién decide, cómo se aprende, qué es una buena escucha."},
+"Stockhausen Serves Imperialism": {porque:"Libro polémico de Cardew (1974) en el que critica a Stockhausen y a Cage, y su propia obra anterior, desde el maoísmo. Se encuentra gratis en internet.",
+  fijate:"Más allá de la política, fíjate en la pregunta de fondo: ¿para quién se hace música? Es una de las grandes tensiones entre vanguardia e improvisación."},
+"Stockhausen: Conversations with the Composer": {porque:"Entrevistas de Jonathan Cott con Stockhausen en el momento de la música intuitiva.",
+  fijate:"Fíjate en cómo Stockhausen habla de la intuición y del intérprete. Compáralo con lo que dicen Bailey o Prévost."},
+"Iannis Xenakis's Persepolis": {porque:"Libro de Aram Yardumian (Bloomsbury, 2023) dedicado entero a Persepolis: el encargo, el estreno, la política del Irán del Sha y las distintas versiones grabadas.",
+  fijate:"Fíjate en el contexto político del Festival de Shiraz y en la crítica que recibió Xenakis. También en la explicación de los materiales sonoros y de cómo los organizó sobre papel milimetrado."},
+"Free Jazz": {porque:"Estudio musicológico de Ekkehard Jost (1974) con transcripciones de Coleman, Taylor, Coltrane, Ayler, Sun Ra y el Art Ensemble.",
+  fijate:"Usa las transcripciones mientras escuchas los discos. Fíjate en que el free tiene reglas y estructuras propias en cada músico."},
+"As Serious As Your Life": {porque:"Libro de la periodista y fotógrafa británica Valerie Wilmer (1977) sobre la vida real de los músicos de free: economía, racismo, familia, el papel de las mujeres.",
+  fijate:"Fíjate en el contexto social y en las voces de los propios músicos. Es la mejor manera de entender de dónde sale esta música."},
+"The Freedom Principle": {porque:"Historia del jazz desde 1958, centrada en el free y sus consecuencias.",
+  fijate:"Úsalo como panorama general y para descubrir discos que no están en el atlas."},
+"A Power Stronger Than Itself: The AACM and American Experimental Music": {porque:"Historia de la AACM escrita por George E. Lewis, que es miembro. Basada en decenas de entrevistas. Ganó el American Book Award.",
+  fijate:"Fíjate en la autogestión: cómo los músicos se organizaron sin clubes ni discográficas. Y en la idea de Lewis de que la música experimental no es solo blanca ni europea."},
+"Message to Our Folks: The Art Ensemble of Chicago": {porque:"Primera gran historia del Art Ensemble of Chicago, de Paul Steinbeck (2017), con análisis de sus obras.",
+  fijate:"Fíjate en los análisis de A Jackson in Your House y en la etapa francesa."},
+"Point from Which Creation Begins: The Black Artists' Group of St. Louis": {porque:"Historia del Black Artists' Group, que unía música, teatro, poesía y danza en St. Louis.",
+  fijate:"Fíjate en la mezcla de disciplinas: como en tu curso con Hamilton, la improvisación no era solo musical."},
+"Improvisation: Its Nature and Practice in Music": {porque:"El libro de referencia de Derek Bailey (1980; edición ampliada de 1992), basado en entrevistas. Recorre la improvisación en la música india, el flamenco, el barroco, el órgano, el rock, el jazz y la improvisación libre.",
+  fijate:"Lee el capítulo sobre flamenco, con Paco Peña, y el de la libre improvisación. Fíjate en que Bailey no da definiciones: deja hablar a los músicos."},
+"Derek Bailey and the Story of Free Improvisation": {porque:"Biografía de Bailey del crítico Ben Watson, muy partidista y llena de detalles de la escena británica.",
+  fijate:"Fíjate en la historia de Incus, Company y la vida cotidiana de los improvisadores. Toma con distancia las opiniones del autor."},
+"Beyond Jazz: Plink, Plonk & Scratch": {porque:"Historia de los primeros años de la improvisación libre británica (1966–72): SME, AMM, Incus.",
+  fijate:"Fíjate en la diferencia entre la rama de SME y la de AMM. Es el mejor complemento a las fichas británicas del atlas."},
+"No Sound Is Innocent": {porque:"Ensayo de Eddie Prévost sobre AMM y la improvisación como práctica ética y social.",
+  fijate:"Fíjate en la diferencia que hace Prévost entre una música que reproduce y una que investiga. Útil si diriges o participas en talleres."},
+"Towards an Ethic of Improvisation (en Treatise Handbook)": {porque:"Texto breve de Cardew (1971) que enumera las virtudes del improvisador: sencillez, integridad, generosidad, paciencia, disposición, identificación con la naturaleza y aceptación de la muerte.",
+  fijate:"Fíjate en que no habla de técnica sino de actitud. Se encuentra en internet; léelo antes de un concierto o taller."},
+"Cornelius Cardew: A Life Unfinished": {porque:"Biografía monumental de más de mil páginas escrita por John Tilbury, compañero de Cardew en AMM.",
+  fijate:"Úsala como obra de consulta: busca los capítulos sobre AMM, Treatise y la Scratch Orchestra."},
+"Northern Sun, Southern Moon: Europe's Reinvention of Jazz": {porque:"Estudio de cómo los europeos reinventaron el jazz (1960–80): Alemania, Holanda, Reino Unido.",
+  fijate:"Fíjate en las diferencias nacionales: la energía alemana, el humor holandés, la escucha británica."},
+"Europas Jazz 1960–1980": {porque:"Estudio de Ekkehard Jost sobre el jazz libre europeo (en alemán).",
+  fijate:"Si lees alemán, es la referencia más detallada sobre FMP y la Globe Unity."},
+"New Dutch Swing": {porque:"Historia de la escena holandesa del crítico Kevin Whitehead (1998): ICP, Breuker, Bennink, Mengelberg.",
+  fijate:"Fíjate en la explicación de por qué en Holanda la improvisación tiene humor y teatro, y en cómo lograron financiación pública."},
+"Nonsequiturs: Writings & Lectures on Improvisation": {porque:"Escritos de Frederic Rzewski sobre improvisación, composición y política, entre ellos el ensayo «Little Bangs: A Nihilist Theory of Improvisation».",
+  fijate:"Fíjate en la idea de la improvisación como algo que solo existe en el momento. Es breve y muy citable."},
+"Japanoise: Music at the Edge of Circulation": {porque:"Estudio etnográfico de David Novak sobre el noise japonés y cómo circula entre Japón y Occidente.",
+  fijate:"Fíjate en la idea de que el noise japonés en parte se creó en el intercambio con el extranjero. Útil también para el onkyo."},
+"Japrocksampler": {porque:"Historia de Julian Cope sobre el rock experimental japonés de los sesenta y setenta.",
+  fijate:"Úsalo para el contexto de Haino, Takayanagi y la escena psicodélica. Fíjate en las listas de discos."},
+"Arcana: Musicians on Music": {porque:"Serie de libros coordinada por John Zorn en la que músicos de vanguardia escriben sobre su propia práctica.",
+  fijate:"Elige los textos de músicos del atlas. Fíjate en que no son académicos: son reflexiones desde dentro."},
+"Deep Listening: A Composer's Sound Practice": {porque:"Manual de Pauline Oliveros con ejercicios de escucha, respiración y movimiento.",
+  fijate:"Haz los ejercicios. Fíjate en la relación con la danza y el cuerpo, muy cercana a lo que trabajaste con Hamilton."},
+"Experimentalism Otherwise": {porque:"Estudio de Benjamin Piekut sobre la vanguardia neoyorquina de 1964: la Jazz Composers Guild, Henry Flynt, Cage y Charlotte Moorman.",
+  fijate:"Fíjate en cómo el libro conecta free jazz y música experimental, que suelen contarse por separado."},
+"Echtzeitmusik Berlin: Selbstbestimmung einer Szene": {porque:"Libro bilingüe (alemán e inglés) sobre la escena berlinesa, editado por sus propios músicos.",
+  fijate:"Fíjate en los textos sobre los espacios y en la autogestión. Útil para la ficha del reduccionismo."},
+"Improvisación libre. La composición en movimiento": {porque:"Manual de Chefa Alonso (2008), uno de los pocos en castellano. Une su tesis doctoral en Londres con su experiencia de orquestas y talleres. Ha sido reeditado.",
+  fijate:"Fíjate en los ejercicios y en la idea de improvisación como composición en tiempo real. Es un buen puente entre la escena londinense y la madrileña."},
+"Improvisando. La libre creación musical": {porque:"Introducción en castellano de Wade Matthews (Turner, 2012), escrita desde dentro de la práctica.",
+  fijate:"Fíjate en cómo explica la escucha y la toma de decisiones en tiempo real. Léelo junto al libro de Chefa Alonso."},
+"The Oxford Handbook of Critical Improvisation Studies": {porque:"Dos volúmenes académicos coordinados por George E. Lewis y Benjamin Piekut (2016) sobre la improvisación en música, danza, política y vida cotidiana.",
+  fijate:"Úsalo para temas concretos: cada capítulo es independiente. Fíjate en los dedicados a la danza y al cuerpo."},
+"Into the Maelstrom: Music, Improvisation and the Dream of Freedom": {porque:"Historia narrativa de David Toop (2016) sobre la improvisación hasta 1970, del jazz a la vanguardia.",
+  fijate:"Fíjate en las conexiones inesperadas entre escenas. Es una lectura amena para tener la visión general."}
+});
+</script>
+
+<script>
+const REGIONS = {
+  cm:{name:"Música contemporánea", c:"--cm"},
+  da:{name:"Danza", c:"--da"},
+  us:{name:"EE.UU.", c:"--us"},
+  uk:{name:"Reino Unido", c:"--uk"},
+  eu:{name:"Europa continental", c:"--eu"},
+  jp:{name:"Japón", c:"--jp"},
+  es:{name:"España", c:"--es"}
+};
+
+/* ===== DATOS — añade corrientes, músicos o discos aquí ===== */
+const CORRIENTES = [
+{ id:"serialismo", region:"cm", nombre:"Schoenberg, Webern y el serialismo", corto:"Serialismo (Viena → Darmstadt)",
+  desde:1908, hasta:1965, sigue:false, lugares:["Viena (Segunda Escuela de Viena)","Darmstadt (cursos de verano, desde 1946)","París"],
+  contexto:"Schoenberg abandona la tonalidad hacia 1908 y en 1923 formula el dodecafonismo. Su alumno Webern reduce la música a notas aisladas, timbres cambiantes y silencio. Tras la Segunda Guerra Mundial, los cursos de Darmstadt convierten a Webern en modelo: Boulez, Nono y Stockhausen extienden la serie a ritmo, dinámica y timbre (serialismo integral). Para los improvisadores, esta tradición aporta un oído sin centro tonal y un vocabulario de intervalos amplios y gestos breves. El atomismo británico, Cecil Taylor o Anthony Braxton beben de aquí.",
+  rasgos:["Atonalidad","Dodecafonismo (serie de 12 sonidos)","Puntillismo de Webern","Melodía de timbres (Klangfarbenmelodie)","Serialismo integral","Gestos breves, mucho silencio"],
+  autores:[
+    ["Arnold Schoenberg","Austria","composición","1874–1951"],["Anton Webern","Austria","composición","1883–1945"],
+    ["Alban Berg","Austria","composición","1885–1935"],["Pierre Boulez","Francia","composición, dirección","1925–2016"],
+    ["Luigi Nono","Italia","composición","1924–1990"],["Milton Babbitt","EE.UU.","composición","1916–2011"]],
+  discos:[
+    ["Pierrot lunaire","Arnold Schoenberg","obra",1912],
+    ["Sinfonía op. 21","Anton Webern","obra",1928],
+    ["Le Marteau sans maître","Pierre Boulez","obra",1955]],
+  libros:[["Alex Ross","El ruido eterno (The Rest Is Noise)",2007],["Arnold Schoenberg","Style and Idea",1950]],
+  influye:["freejazz","aacm","britanica"] },
+
+{ id:"cage", region:"cm", nombre:"John Cage y la Escuela de Nueva York", corto:"Cage / Escuela de NY",
+  desde:1951, hasta:1975, sigue:false, lugares:["Nueva York","Black Mountain College","Darmstadt (1958)"],
+  contexto:"Cage estudió con Schoenberg en Los Ángeles, pero tomó el camino contrario: dejar que el azar decida (Music of Changes, 1951) y escuchar el silencio como música (4'33'', 1952, estrenada por David Tudor). Feldman explora dinámicas casi inaudibles; Earle Brown y Christian Wolff escriben partituras abiertas y gráficas. En 1958 Cage visita Darmstadt, donde lo conocen Juan Hidalgo y Walter Marchetti, futuros fundadores de Zaj, y sus clases en Nueva York alimentan Fluxus. Cage desconfiaba de la improvisación porque creía que repetía hábitos, pero sus ideas dieron permiso a AMM, Fluxus, el reduccionismo y el onkyo.",
+  rasgos:["Azar e indeterminación","El silencio como material","Partituras gráficas y abiertas","Piano preparado","Dinámicas mínimas (Feldman)","Dejar que los sonidos sean ellos mismos"],
+  autores:[
+    ["John Cage","EE.UU.","composición, piano preparado","1912–1992"],["Morton Feldman","EE.UU.","composición","1926–1987"],
+    ["Christian Wolff","EE.UU. (n. Niza)","composición","1934"],["Earle Brown","EE.UU.","composición","1926–2002"],
+    ["David Tudor","EE.UU.","piano, electrónica","1926–1996"],["La Monte Young","EE.UU.","composición, drones","1935"]],
+  discos:[
+    ["Sonatas and Interludes","John Cage","obra",1948],
+    ["4'33''","John Cage","obra",1952],
+    ["December 1952","Earle Brown","obra",1952],
+    ["Rothko Chapel","Morton Feldman","obra",1971]],
+  libros:[["John Cage","Silence (trad.: Silencio)",1961],["Michael Nyman","Experimental Music: Cage and Beyond",1974],["Kyle Gann","No Such Thing as Silence: John Cage's 4'33''",2010]],
+  influye:["amm","japon","holandesa","espana","reduccionismo","onkyo","downtown","danza"] },
+
+{ id:"danza", region:"da", nombre:"Improvisación y danza", corto:"Danza / composición instantánea",
+  desde:1962, hasta:2000, sigue:true, lugares:["Nueva York: Judson Memorial Church (1962)","Oberlin y Vermont (contact, 1972)","Europa (Allen's Line, Julyen Hamilton)"],
+  contexto:"La improvisación en danza tiene su propia genealogía, paralela a la musical y en contacto constante con ella. Merce Cunningham trabaja con John Cage usando el azar, y de un taller de composición inspirado en Cage nace en 1962 el Judson Dance Theater, con Yvonne Rainer, Steve Paxton, Trisha Brown y Simone Forti. Usan movimientos cotidianos, tareas y reglas en lugar de coreografía fija. En 1972 Paxton presenta Magnesium, origen de la contact improvisation. Desde los años setenta y ochenta, el británico Julyen Hamilton desarrolla la «composición instantánea»: crear y actuar la obra en el mismo momento, con bailarines, luz, palabra y música. Desde los ochenta colabora con improvisadores como Barre Phillips, Fred Frith, Tristan Honsinger y Michael Moore.",
+  rasgos:["Movimiento cotidiano y tareas","Reglas en lugar de coreografía fija","Contacto y peso compartido (contact)","Composición instantánea","Diálogo en vivo con músicos","Palabra, luz y espacio como material"],
+  autores:[
+    ["Merce Cunningham","EE.UU.","coreografía","1919–2009"],["Simone Forti","Italia / EE.UU.","danza","1935"],
+    ["Yvonne Rainer","EE.UU.","danza, cine","1934"],["Steve Paxton","EE.UU.","danza, contact improvisation","1939–2024"],
+    ["Trisha Brown","EE.UU.","danza","1936–2017"],["Julyen Hamilton","Reino Unido","danza, poesía, música","—"]],
+  discos:[
+    ["Trio A","Yvonne Rainer","pieza",1966],
+    ["Accumulation","Trisha Brown","pieza",1971],
+    ["Magnesium","Steve Paxton","pieza",1972],
+    ["Allen's Line","Julyen Hamilton","compañía","—"]],
+  libros:[["Sally Banes","Democracy's Body: Judson Dance Theater 1962–1964",1983],["Sally Banes","Terpsichore in Sneakers",1980],["Cynthia Novack","Sharing the Dance: Contact Improvisation and American Culture",1990]],
+  borrador:"Ficha en construcción. Aquí entra tu curso con Julyen Hamilton: apunta en «Mis notas» lo que trabajasteis.",
+  influye:[] },
+
+{ id:"electronica", region:"cm", nombre:"Stockhausen, electrónica y música concreta", corto:"Stockhausen / electrónica",
+  desde:1948, hasta:1975, sigue:false, lugares:["París (música concreta, 1948)","Colonia (estudio WDR, 1951)","Darmstadt"],
+  contexto:"En 1948 Pierre Schaeffer compone con ruidos grabados: nace la música concreta. En Colonia, Stockhausen crea música electrónica y en 1964 la lleva al escenario con Mikrophonie I. En 1968 escribe Aus den sieben Tagen, «música intuitiva» con partituras de solo texto para su grupo de intérpretes, entre ellos el trombonista Vinko Globokar. Cardew fue su asistente antes de unirse a AMM y en 1974 lo atacó en Stockhausen Serves Imperialism. Xenakis y Penderecki trabajan con masas sonoras; Lachenmann, con sonidos instrumentales «sucios». Schlippenbach estudió composición con Bernd Alois Zimmermann antes de fundar la Globe Unity.",
+  rasgos:["Electrónica en vivo","Partituras de texto (música intuitiva)","El ruido como material","Masas y texturas sonoras","Técnicas extendidas (Lachenmann)","Espacialización del sonido"],
+  autores:[
+    ["Pierre Schaeffer","Francia","música concreta","1910–1995"],["Karlheinz Stockhausen","Alemania","composición, electrónica","1928–2007"],
+    ["Iannis Xenakis","Grecia / Francia","composición","1922–2001"],["Krzysztof Penderecki","Polonia","composición","1933–2020"],
+    ["Helmut Lachenmann","Alemania","composición","1935"],["Bernd Alois Zimmermann","Alemania","composición","1918–1970"],
+    ["Vinko Globokar","Francia / Eslovenia","trombón, composición","1934"]],
+  discos:[
+    ["Gesang der Jünglinge","Karlheinz Stockhausen","obra",1956],
+    ["Threnody to the Victims of Hiroshima","Krzysztof Penderecki","obra",1960],
+    ["Mikrophonie I","Karlheinz Stockhausen","obra",1964],
+    ["Aus den sieben Tagen","Karlheinz Stockhausen","obra",1968],
+    ["Pression","Helmut Lachenmann","obra",1970],
+    ["Persepolis","Iannis Xenakis","Philips · Prospective 21e Siècle",1972]],
+  libros:[["Cornelius Cardew","Stockhausen Serves Imperialism",1974],["Jonathan Cott","Stockhausen: Conversations with the Composer",1973],["Aram Yardumian","Iannis Xenakis's Persepolis",2023]],
+  influye:["mev","alemana","amm"] },
+
+{ id:"freejazz", region:"us", nombre:"Raíces: el free jazz estadounidense", corto:"Free jazz (EE.UU.)",
+  desde:1959, hasta:1970, sigue:false, lugares:["Nueva York","Los Ángeles"],
+  contexto:"A finales de los cincuenta el bebop y el hard bop parecían agotados. Ornette Coleman llega al Five Spot de Nueva York en 1959 y desata la polémica. La música crece junto al movimiento por los derechos civiles y el Black Arts Movement (1965). En 1964 Bill Dixon organiza la «October Revolution in Jazz» y nace el sello ESP-Disk. Eric Dolphy hace de puente: toca en Free Jazz de Coleman, trabaja con Mingus y Coltrane y, poco antes de morir en Berlín en 1964, graba Last Date en Hilversum con Misha Mengelberg y Han Bennink, futuros fundadores del ICP holandés. Es el precursor directo: casi todas las corrientes posteriores parten de aquí o reaccionan contra él.",
+  rasgos:["Sin progresiones armónicas fijas","Improvisación colectiva","Tiempo libre o elástico","Timbre expresivo, gritos y sobreagudos","Intensidad y catarsis","Lectura política y espiritual"],
+  autores:[
+    ["Ornette Coleman","EE.UU.","saxo alto","1930–2015"],["Cecil Taylor","EE.UU.","piano","1929–2018"],
+    ["John Coltrane","EE.UU.","saxo tenor","1926–1967"],["Albert Ayler","EE.UU.","saxo tenor","1936–1970"],
+    ["Sun Ra","EE.UU.","teclados, orquesta","1914–1993"],["Bill Dixon","EE.UU.","trompeta","1925–2010"],
+    ["Don Cherry","EE.UU.","trompeta","1936–1995"],["Eric Dolphy","EE.UU.","saxo alto, clarinete bajo, flauta","1928–1964"]],
+  discos:[
+    ["The Shape of Jazz to Come","Ornette Coleman","Atlantic",1959],
+    ["Free Jazz: A Collective Improvisation","Ornette Coleman Double Quartet","Atlantic",1961],
+    ["Out to Lunch!","Eric Dolphy","Blue Note",1964],
+    ["Last Date","Eric Dolphy con Misha Mengelberg y Han Bennink","Fontana",1964],
+    ["Spiritual Unity","Albert Ayler Trio","ESP-Disk",1964],
+    ["Ascension","John Coltrane","Impulse!",1965],
+    ["Unit Structures","Cecil Taylor","Blue Note",1966]],
+  libros:[["Ekkehard Jost","Free Jazz",1974],["Valerie Wilmer","As Serious As Your Life",1977],["John Litweiler","The Freedom Principle",1984]],
+  influye:["aacm","britanica","alemana","holandesa"] },
+
+{ id:"aacm", region:"us", nombre:"AACM y la Great Black Music", corto:"AACM / Chicago",
+  desde:1965, hasta:1985, sigue:true, lugares:["Chicago (South Side)","St. Louis (BAG, 1968)","París (1969–71)"],
+  contexto:"En mayo de 1965 Muhal Richard Abrams, Jodie Christian, Steve McCall y Phil Cohran fundan en el South Side de Chicago la Association for the Advancement of Creative Musicians. Es una cooperativa de músicos negros que se organizan sin depender de clubes ni discográficas, en plena época del Black Power. En 1968 surge en St. Louis el Black Artists' Group. Entre 1969 y 1971 el Art Ensemble of Chicago vive en Francia y deja allí una huella decisiva.",
+  rasgos:["«Great Black Music: Ancient to the Future»","Composición e improvisación entrelazadas","Pequeños instrumentos y percusión","Silencio y espacio","Teatralidad, máscaras y pintura","Sistemas compositivos propios (Braxton)"],
+  autores:[
+    ["Muhal Richard Abrams","EE.UU.","piano","1930–2017"],["Roscoe Mitchell","EE.UU.","saxos","1940"],
+    ["Lester Bowie","EE.UU.","trompeta","1941–1999"],["Joseph Jarman","EE.UU.","saxos","1937–2019"],
+    ["Malachi Favors","EE.UU.","contrabajo","1927–2004"],["Anthony Braxton","EE.UU.","saxos, composición","1945"],
+    ["Wadada Leo Smith","EE.UU.","trompeta","1941"],["Henry Threadgill","EE.UU.","saxo, flauta","1944"],
+    ["Amina Claudine Myers","EE.UU.","piano, voz","1942"],["George E. Lewis","EE.UU.","trombón, electrónica","1952"],
+    ["Julius Hemphill","EE.UU. (BAG)","saxo","1938–1995"]],
+  discos:[
+    ["Sound","Roscoe Mitchell Sextet","Delmark",1966],
+    ["Levels and Degrees of Light","Muhal Richard Abrams","Delmark",1968],
+    ["For Alto","Anthony Braxton","Delmark",1969],
+    ["A Jackson in Your House","Art Ensemble of Chicago","BYG Actuel",1969],
+    ["Urban Bushmen","Art Ensemble of Chicago","ECM",1982]],
+  libros:[["George E. Lewis","A Power Stronger Than Itself: The AACM and American Experimental Music",2008],["Paul Steinbeck","Message to Our Folks: The Art Ensemble of Chicago",2017],["Benjamin Looker","Point from Which Creation Begins: The Black Artists' Group of St. Louis",2004]],
+  influye:["downtown"] },
+
+{ id:"britanica", region:"uk", nombre:"Improvisación libre británica (no idiomática)", corto:"No idiomática (Londres)",
+  desde:1965, hasta:1990, sigue:true, lugares:["Londres: Little Theatre Club (1966)","Incus (1970)","London Musicians Collective (1975)"],
+  contexto:"Músicos británicos de jazz buscan un lenguaje que no imite a los estadounidenses. John Stevens y Trevor Watts forman el Spontaneous Music Ensemble y tocan en el Little Theatre Club. En 1970 Derek Bailey, Evan Parker y Tony Oxley crean Incus, uno de los primeros sellos gestionados por músicos. Desde 1977 los encuentros Company Week reúnen a improvisadores de todo tipo. Ese mismo año se forma el Feminist Improvising Group.",
+  rasgos:["Improvisación «no idiomática» (Bailey)","Gestos breves y atomizados","Escucha extrema y reacción inmediata","Técnicas extendidas","Autogestión: sellos y colectivos propios","Encuentros abiertos entre músicos distintos"],
+  autores:[
+    ["Derek Bailey","Reino Unido","guitarra","1930–2005"],["Evan Parker","Reino Unido","saxo","1944"],
+    ["John Stevens","Reino Unido","batería","1940–1994"],["Trevor Watts","Reino Unido","saxo","1939"],
+    ["Paul Rutherford","Reino Unido","trombón","1940–2007"],["Tony Oxley","Reino Unido","batería","1938–2023"],
+    ["Barry Guy","Reino Unido","contrabajo","1947"],["Maggie Nicols","Reino Unido","voz","1948"],
+    ["Lindsay Cooper","Reino Unido","fagot","1951–2013"],["Phil Minton","Reino Unido","voz","1940"],
+    ["John Russell","Reino Unido","guitarra","1954–2021"]],
+  discos:[
+    ["Karyobin","Spontaneous Music Ensemble","Island",1968],
+    ["The Topography of the Lungs","Evan Parker, Derek Bailey, Han Bennink","Incus",1970],
+    ["Solo Guitar","Derek Bailey","Incus",1971],
+    ["Iskra 1903","Iskra 1903 (Rutherford, Guy, Bailey)","Incus",1972],
+    ["Saxophone Solos","Evan Parker","Incus",1976]],
+  libros:[["Derek Bailey","Improvisation: Its Nature and Practice in Music",1980],["Ben Watson","Derek Bailey and the Story of Free Improvisation",2004],["Trevor Barre","Beyond Jazz: Plink, Plonk & Scratch",2015]],
+  influye:["downtown","espana","alemana"] },
+
+{ id:"amm", region:"uk", nombre:"AMM y la improvisación laminar", corto:"AMM / laminar",
+  desde:1965, hasta:1990, sigue:true, lugares:["Londres: Royal College of Art","Scratch Orchestra (1969)"],
+  contexto:"AMM nace en 1965 con músicos de jazz (Eddie Prévost, Lou Gare) y el guitarrista Keith Rowe, formado en Bellas Artes. En 1966 se suma Cornelius Cardew, que había sido asistente de Stockhausen y escribía la partitura gráfica Treatise. Cardew funda después la Scratch Orchestra y deriva hacia la militancia maoísta. El grupo plantea la improvisación como una ética de trabajo colectivo y anónimo.",
+  rasgos:["Capas de sonido superpuestas (laminar)","Guitarra horizontal preparada","Objetos, radio, arcos y motores","Renuncia al protagonismo individual","Larga duración, sin gestos de solista","Influencia de la pintura y el arte conceptual"],
+  autores:[
+    ["Keith Rowe","Reino Unido","guitarra de mesa","1940"],["Eddie Prévost","Reino Unido","percusión","1942"],
+    ["Lou Gare","Reino Unido","saxo","1939–2017"],["Cornelius Cardew","Reino Unido","piano, composición","1936–1981"],
+    ["John Tilbury","Reino Unido","piano","1936"],["Christian Wolff","EE.UU.","composición, guitarra","1934"]],
+  discos:[
+    ["AMMMusic","AMM","Elektra",1967],
+    ["The Crypt – 12th June 1968","AMM","Matchless",1968],
+    ["Generative Themes","AMM","Matchless",1983],
+    ["Laminal","AMM","Matchless",1996]],
+  libros:[["Eddie Prévost","No Sound Is Innocent",1995],["Cornelius Cardew","Towards an Ethic of Improvisation (en Treatise Handbook)",1971],["John Tilbury","Cornelius Cardew: A Life Unfinished",2008]],
+  influye:["reduccionismo","onkyo"] },
+
+{ id:"alemana", region:"eu", nombre:"Free jazz europeo y FMP", corto:"Free europeo / FMP",
+  desde:1966, hasta:1985, sigue:true, lugares:["Berlín","Wuppertal","Moers (festival, 1972)"],
+  contexto:"La generación nacida en la guerra rompe con el modelo estadounidense en pleno 1968. En 1966 Alexander von Schlippenbach estrena la Globe Unity Orchestra en los Berliner Jazztage. En 1968 nace el Total Music Meeting como contrafestival. En 1969 los músicos fundan FMP (Free Music Production), sello y productora autogestionados. A esta red se suma el contrabajista estadounidense Barre Phillips, que se instala en Europa en 1967 tras tocar con Dolphy y Jimmy Giuffre. Graba el primer disco de contrabajo solo del jazz, toca con Brötzmann, Kowald, Bailey, Parker y Barry Guy, y vive medio siglo en el sur de Francia, componiendo también para danza y teatro.",
+  rasgos:["Energía, densidad y volumen","Saxo sobresoplado, timbre desgarrado","Grandes formaciones colectivas","Ruptura con swing y forma de tema","Autogestión (FMP)","Intercambio constante con británicos y holandeses"],
+  autores:[
+    ["Peter Brötzmann","Alemania","saxos, clarinetes","1941–2023"],["Alexander von Schlippenbach","Alemania","piano","1938"],
+    ["Peter Kowald","Alemania","contrabajo","1944–2002"],["Manfred Schoof","Alemania","trompeta","1936"],
+    ["Paul Lovens","Alemania","batería","1949"],["Irène Schweizer","Suiza","piano","1941"],
+    ["Fred Van Hove","Bélgica","piano","1937–2022"],["Sven-Åke Johansson","Suecia","batería","1943"],
+    ["Barre Phillips","EE.UU. (en Francia desde 1967)","contrabajo","1934–2024"]],
+  discos:[
+    ["Globe Unity","Globe Unity Orchestra","SABA",1966],
+    ["Machine Gun","Peter Brötzmann Octet","BRÖ / FMP",1968],
+    ["Balls","Brötzmann, Van Hove, Bennink","FMP",1970],
+    ["Pakistani Pomade","Schlippenbach Trio","FMP",1973],
+    ["Wilde Señoritas","Irène Schweizer","FMP",1976],
+    ["Journal Violone","Barre Phillips","Opus One",1969],
+    ["Music from Two Basses","Barre Phillips & Dave Holland","ECM",1971]],
+  libros:[["Mike Heffley","Northern Sun, Southern Moon: Europe's Reinvention of Jazz",2005],["Ekkehard Jost","Europas Jazz 1960–1980",1987]],
+  influye:["espana","danza"] },
+
+{ id:"holandesa", region:"eu", nombre:"Instant composing holandés", corto:"Holanda / ICP",
+  desde:1967, hasta:1995, sigue:true, lugares:["Ámsterdam"],
+  contexto:"En 1967 Misha Mengelberg, Han Bennink y Willem Breuker fundan el Instant Composers Pool (ICP). Mengelberg venía del entorno Fluxus. En 1969 los Notenkrakers protestan contra el Concertgebouw. En 1971 los improvisadores se asocian (BIM) y logran subvenciones públicas, algo excepcional en Europa. Breuker crea en 1974 su Kollektief.",
+  rasgos:["Humor y teatralidad","Citas de swing, marchas y música popular","Collage y cambios bruscos","Anarquía con reglas","«Composición instantánea»"],
+  autores:[
+    ["Misha Mengelberg","Países Bajos (n. Kiev)","piano","1935–2017"],["Han Bennink","Países Bajos","batería","1942"],
+    ["Willem Breuker","Países Bajos","saxos","1944–2010"],["Maarten Altena","Países Bajos","contrabajo","1943"],
+    ["Tristan Honsinger","EE.UU.","violonchelo","1949–2023"],["Ernst Reijseger","Países Bajos","violonchelo","1954"],
+    ["Michael Moore","EE.UU.","saxo, clarinete","1954"]],
+  discos:[
+    ["New Acoustic Swing Duo","Willem Breuker & Han Bennink","ICP",1967],
+    ["Einepartietischtennis","Misha Mengelberg & Han Bennink","FMP",1974],
+    ["Japan Japon","ICP Orchestra","ICP",1982]],
+  libros:[["Kevin Whitehead","New Dutch Swing",1998]],
+  influye:["downtown","danza"] },
+
+{ id:"mev", region:"eu", nombre:"Electrónica en vivo en Roma", corto:"MEV / Roma",
+  desde:1964, hasta:1975, sigue:true, lugares:["Roma"],
+  contexto:"En 1964 Franco Evangelisti funda el Gruppo di Improvvisazione Nuova Consonanza, al que se une Ennio Morricone. En 1966 compositores estadounidenses residentes en Roma (Rzewski, Curran, Teitelbaum) forman Musica Elettronica Viva. Usan electrónica casera, micrófonos de contacto y uno de los primeros Moog en directo. Alrededor de 1968 invitan al público a tocar con ellos.",
+  rasgos:["Electrónica en vivo","Amplificación de objetos (cristal, metal)","Participación del público","Compositores que improvisan","Utopía política y comunal"],
+  autores:[
+    ["Frederic Rzewski","EE.UU.","piano, electrónica","1938–2021"],["Alvin Curran","EE.UU.","electrónica, piano","1938"],
+    ["Richard Teitelbaum","EE.UU.","sintetizador Moog","1939–2020"],["Franco Evangelisti","Italia","composición","1926–1980"],
+    ["Ennio Morricone","Italia","trompeta (GINC)","1928–2020"]],
+  discos:[
+    ["Spacecraft","Musica Elettronica Viva","grab. 1967",1967],
+    ["The Feed-Back","Gruppo di Improvvisazione Nuova Consonanza","RCA",1970],
+    ["MEV 40","Musica Elettronica Viva","New World Records",2008]],
+  libros:[["Frederic Rzewski","Nonsequiturs: Writings & Lectures on Improvisation",2007]],
+  influye:[] },
+
+{ id:"japon", region:"jp", nombre:"Japón: vanguardia, free y ruido", corto:"Japón radical",
+  desde:1960, hasta:1990, sigue:true, lugares:["Tokio","Kioto"],
+  contexto:"En 1960 un grupo de estudiantes de Tokio forma Group Ongaku, que improvisa con objetos y cinta antes que casi nadie en Occidente. Takehisa Kosugi enlaza luego con Fluxus. Las protestas de 1960 y de 1968–70 y la cultura de los «jazz kissa» alimentan una escena intensa. Más tarde sellos como PSF (1984) y el ruido japonés llevan la radicalidad al extremo.",
+  rasgos:["Radicalidad y rechazo de la técnica","Volumen extremo, saturación","Drones de larga duración","Intensidad física","Ruido como material musical"],
+  autores:[
+    ["Takehisa Kosugi","Japón","violín, electrónica","1938–2018"],["Masayuki Takayanagi","Japón","guitarra","1932–1991"],
+    ["Kaoru Abe","Japón","saxo alto","1949–1978"],["Motoharu Yoshizawa","Japón","contrabajo","1931–1998"],
+    ["Keiji Haino","Japón","guitarra, voz","1952"],["Merzbow (Masami Akita)","Japón","ruido","1956"]],
+  discos:[
+    ["Music of Group Ongaku","Group Ongaku","grab. 1960–61, ed. 1996",1960],
+    ["Gradually Projection","Masayuki Takayanagi & Kaoru Abe","grab. 1970",1970],
+    ["July 15, 1972","Taj Mahal Travellers","Columbia",1972],
+    ["Watashi Dake?","Keiji Haino","Pinakotheca",1981],
+    ["Fushitsusha","Fushitsusha","PSF",1989]],
+  libros:[["David Novak","Japanoise: Music at the Edge of Circulation",2013],["Julian Cope","Japrocksampler",2007]],
+  influye:["onkyo"] },
+
+{ id:"downtown", region:"us", nombre:"Estructuras para improvisar (comprovisación)", corto:"Game pieces / conduction",
+  desde:1977, hasta:2000, sigue:true, lugares:["Nueva York (Downtown)","Kingston y Woodstock (NY)"],
+  contexto:"En los lofts del Downtown neoyorquino se mezclan free jazz, rock, ruido y vanguardia. John Zorn escribe piezas-juego como Lacrosse (1977) y Cobra (1984). Butch Morris presenta su primera «conduction» en 1985. Pauline Oliveros graba Deep Listening en una cisterna en 1988. La Knitting Factory abre en 1987 y se convierte en el centro de la escena.",
+  rasgos:["Reglas, tarjetas y señales","Un director que organiza en tiempo real","Mezcla de géneros","Escucha profunda (Oliveros)","No se fijan notas, sí relaciones"],
+  autores:[
+    ["John Zorn","EE.UU.","saxo, composición","1953"],["Butch Morris","EE.UU.","corneta, dirección","1947–2013"],
+    ["Pauline Oliveros","EE.UU.","acordeón, composición","1932–2016"],["Walter Thompson","EE.UU.","soundpainting","1952"],
+    ["Ikue Mori","Japón / EE.UU.","electrónica","1953"],["Elliott Sharp","EE.UU.","guitarra","1951"],
+    ["Eugene Chadbourne","EE.UU.","guitarra, banjo","1954"]],
+  discos:[
+    ["Current Trends in Racism in Modern America","Butch Morris","Sound Aspects",1986],
+    ["Cobra","John Zorn","hat ART",1987],
+    ["Deep Listening","Pauline Oliveros, Stuart Dempster, Panaiotis","New Albion",1989],
+    ["The Parachute Years","John Zorn","Tzadik",1997]],
+  libros:[["John Zorn (ed.)","Arcana: Musicians on Music",2000],["Pauline Oliveros","Deep Listening: A Composer's Sound Practice",2005],["Benjamin Piekut","Experimentalism Otherwise",2011]],
+  influye:[] },
+
+{ id:"reduccionismo", region:"eu", nombre:"Reduccionismo y nueva escucha", corto:"Reduccionismo / Berlín–Viena",
+  desde:1993, hasta:2010, sigue:true, lugares:["Berlín (Echtzeitmusik)","Viena","Londres (New London Silence)"],
+  contexto:"Tras la caída del Muro, los locales baratos de Berlín Este acogen una escena nueva que se llamará Echtzeitmusik («música en tiempo real»). En Viena se forma Polwechsel (1993) y en 1992 nace el colectivo Wandelweiser, que compone con silencio. Sellos como Erstwhile (1999) y Another Timbre (2007) difunden esta estética.",
+  rasgos:["Dinámicas mínimas","Silencio como material","Sonidos estáticos, aire, fricción","Técnicas extendidas sin virtuosismo","Eliminación del gesto expresivo","Herencia de Cage y Feldman"],
+  autores:[
+    ["Radu Malfatti","Austria","trombón","1943"],["Axel Dörner","Alemania","trompeta","1964"],
+    ["Burkhard Beins","Alemania","percusión","1964"],["Andrea Neumann","Alemania","arpa de piano","1968"],
+    ["Annette Krebs","Alemania","guitarra","1967"],["Werner Dafeldecker","Austria","contrabajo","1964"],
+    ["Rhodri Davies","Gales","arpa","1971"],["Mark Wastell","Reino Unido","violonchelo, gong","1968"],
+    ["Michael Pisaro","EE.UU.","composición, guitarra","1961"]],
+  discos:[
+    ["Polwechsel","Polwechsel","hat ART",1995]],
+  libros:[["B. Beins, C. Kesten, G. Nauck, A. Neumann (eds.)","Echtzeitmusik Berlin: Selbstbestimmung einer Szene",2011]],
+  borrador:"Ficha en construcción: faltan discos clave. Buena siguiente ampliación.",
+  influye:[] },
+
+{ id:"onkyo", region:"jp", nombre:"Onkyo", corto:"Onkyo / Tokio",
+  desde:1997, hasta:2005, sigue:false, lugares:["Tokio: Off Site (2000–2005)"],
+  contexto:"A finales de los noventa, en parte como reacción al ruido japonés, un grupo de músicos de Tokio empieza a tocar casi en silencio. En el pequeño espacio Off Site, donde no se podía hacer ruido, se consolida una escena que la prensa llamó onkyo («sonido, resonancia»). Su influencia sobre el reduccionismo europeo fue mutua.",
+  rasgos:["Ondas sinusoidales","Mesa de mezclas sin entrada (feedback)","Volumen mínimo","Atención a la sala y al ruido de fondo","Larga duración"],
+  autores:[
+    ["Sachiko M","Japón","sampler sin muestras, sinusoides","1973"],["Otomo Yoshihide","Japón","tocadiscos, guitarra","1959"],
+    ["Toshimaru Nakamura","Japón","no-input mixing board","1962"],["Taku Sugimoto","Japón","guitarra","1965"],
+    ["Ami Yoshida","Japón","voz","1976"]],
+  discos:[
+    ["Filament 1","Filament (Otomo Yoshihide & Sachiko M)","Extreme",1998],
+    ["Sine Wave Solo","Sachiko M","Amoebic",1999],
+    ["No-Input Mixing Board","Toshimaru Nakamura","A Bruit Secret",2000],
+    ["Weather Sky","Keith Rowe & Toshimaru Nakamura","Erstwhile",2001],
+    ["Cosmos","Ami Yoshida & Sachiko M","Erstwhile",2003]],
+  libros:[["David Novak","Japanoise: Music at the Edge of Circulation",2013]],
+  influye:["reduccionismo"] },
+
+{ id:"espana", region:"es", nombre:"España: escenas de improvisación libre", corto:"España",
+  desde:1964, hasta:2020, sigue:true, lugares:["Madrid","Barcelona y Cataluña","Mallorca","Lisboa (red ibérica)"],
+  contexto:"En 1964, en pleno franquismo, Juan Hidalgo, Walter Marchetti y Ramón Barce fundan Zaj en Madrid, cercano a Fluxus y a Cage. La improvisación libre como tal crece después de la Transición. Hoy se distinguen dos focos. En Madrid, varios músicos se formaron en Londres, en la London Improvisers Orchestra y la serie Mopomoso: Chefa Alonso vuelve en 2009 tras doctorarse en Brunel, y Ricardo Tejero pasa allí una década y funda el Ensemble Progresivo (2007). Con Paloma Carrasco impulsan dúos, orquestas de improvisadores y colectivos como intersecciones·madrid. En Cataluña, Agustí Fernández, que tocó con Evan Parker, hace de mentor de una generación nueva: Albert Cirera y Ramon Prats forman Duot y el Liquid Trio. Cirera vive en Lisboa y enlaza con la escena portuguesa; el sello Creative Sources se ha convertido en la casa común de la improvisación ibérica. Paloma Carrasco cita al contrabajista Barre Phillips como una de sus grandes influencias (conversación en un curso de música y danza con Julyen Hamilton).",
+  rasgos:["Raíz conceptual (Zaj)","Madrid: herencia británica no idiomática","Orquestas de improvisadores y talleres","Cataluña: energía free y técnicas extendidas","Formas breves (Duot, «Haiku»)","Red ibérica en torno a Creative Sources (Lisboa)"],
+  autores:[
+    ["Juan Hidalgo","España · Zaj","composición, acción","1927–2018"],["Agustí Fernández","España · Mallorca/Barcelona","piano","1954"],
+    ["Ramón López","España · Alicante (en París desde 1985)","batería, tabla","1961"],["Wade Matthews","EE.UU. / España · Madrid","electrónica, clarinete bajo","—"],
+    ["Chefa Alonso","España · Madrid","saxo soprano, percusión","—"],["Ricardo Tejero","España · Madrid","saxo, clarinete, composición","—"],
+    ["Paloma Carrasco","España · Madrid","piano, violonchelo","—"],["Albert Cirera","España · Cataluña (vive en Lisboa)","saxos tenor y soprano","—"],
+    ["Ramon Prats","España · Cataluña","batería","—"]],
+  discos:[
+    ["Aurora","Barry Guy, Agustí Fernández, Ramón López","Maya",2006],
+    ["Hesitancy","Ricardo Tejero's Ensemble Progresivo","Creative Sources",2014],
+    ["Goodbye Red Rose (2008/9)","Chefa Alonso & Tony Marsh","Emanem",2016],
+    ["Marianne","Agustí Fernández Liquid Trio (Cirera, Fernández, Prats)","Vector","c. 2016"],
+    ["Episodes","Duo Bruo (Ricardo Tejero & Paloma Carrasco)","Creative Sources",2017],
+    ["Haiku","Duot (Albert Cirera & Ramon Prats)","autoedición",2025]],
+  libros:[["Chefa Alonso","Improvisación libre. La composición en movimiento",2008],["Wade Matthews","Improvisando. La libre creación musical",2012]],
+  borrador:"Ficha en ampliación: núcleos de Madrid y Cataluña añadidos. Faltan más músicos, espacios y discos.",
+  influye:[] }
+];
+/* ===== FIN DE DATOS ===== */
+
+const byId = Object.fromEntries(CORRIENTES.map(c=>[c.id,c]));
+const active = new Set(Object.keys(REGIONS));
+let current = null, query = "";
+const col = r => `var(${REGIONS[r].c})`;
+const esc = s => String(s).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+const store = {
+  get(k){try{return localStorage.getItem(k)||""}catch(e){return ""}},
+  set(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+};
+
+function matches(c){
+  if(!active.has(c.region)) return false;
+  if(!query) return true;
+  const hay = [c.nombre,c.corto,c.contexto,...c.rasgos,...c.lugares,...c.autores.flat(),...c.discos.flat()].join(" ").toLowerCase();
+  return hay.includes(query);
+}
+
+function renderFilters(){
+  const f = document.getElementById("filters");
+  f.innerHTML = Object.entries(REGIONS).map(([k,r])=>
+    `<button class="chip" data-r="${k}" aria-pressed="${active.has(k)}"><span class="dot" style="background:${col(k)}"></span>${r.name}</button>`).join("")
+    + `<input type="search" id="q" placeholder="Buscar músico, disco, ciudad…" aria-label="Buscar" value="${esc(query)}">`;
+  f.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{
+    const r=b.dataset.r; active.has(r)?active.delete(r):active.add(r); renderAll(false);});
+  const q=document.getElementById("q");
+  q.oninput=()=>{query=q.value.trim().toLowerCase(); renderScore(); renderIndex();};
+}
+
+function renderScore(){
+  const Y0=1957,Y1=2012,W=1000,L=170,R=20,top=40,lane=34,gap=16;
+  const x0 = y => L + (y-Y0)/(Y1-Y0)*(W-L-R);
+  const x = y => x0(Math.max(y,Y0+1)); /* corrientes anteriores a 1958 empiezan en el borde */
+  const order = Object.keys(REGIONS);
+  let y = top, rows=[], bands=[];
+  order.forEach(r=>{
+    const items = CORRIENTES.filter(c=>c.region===r).sort((a,b)=>a.desde-b.desde);
+    const start=y;
+    items.forEach(c=>{rows.push({c,y:y+lane/2}); y+=lane;});
+    bands.push({r,y0:start,y1:y}); y+=gap;
+  });
+  const H=y+10, pos={};
+  rows.forEach(o=>pos[o.c.id]=o);
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Mapa temporal de corrientes por región">`;
+  for(let d=1960; d<=2010; d+=10){
+    s+=`<line x1="${x(d)}" y1="${top-14}" x2="${x(d)}" y2="${H-6}" stroke="var(--rule)" stroke-width="1"/>`;
+    s+=`<text x="${x(d)}" y="${top-20}" font-size="12" fill="var(--muted)" text-anchor="middle">${d}</text>`;
+  }
+  bands.forEach(b=>{
+    s+=`<text x="8" y="${b.y0+14}" font-size="11" fill="${col(b.r)}" font-weight="500" letter-spacing="1">${REGIONS[b.r].name.toUpperCase()}</text>`;
+    s+=`<line x1="8" y1="${b.y1+gap/2}" x2="${W-R}" y2="${b.y1+gap/2}" stroke="var(--rule)" stroke-dasharray="2 4"/>`;
+  });
+  // influencias
+  CORRIENTES.forEach(c=>c.influye.forEach(t=>{
+    const a=pos[c.id], b=pos[t]; if(!a||!b) return;
+    const on = matches(c)&&matches(byId[t]);
+    const sel = current && (current===c.id||current===t);
+    const x1=x(c.desde)+6, x2=x(byId[t].desde);
+    s+=`<path d="M${x1},${a.y} C${(x1+x2)/2+30},${a.y} ${x2-30},${b.y} ${x2},${b.y}" fill="none" stroke="${sel?"var(--ink)":"var(--muted)"}" stroke-width="${sel?1.6:1}" stroke-dasharray="${sel?"":"3 3"}" opacity="${on?(sel?.9:.45):.08}"/>`;
+  }));
+  rows.forEach(({c,y})=>{
+    const on=matches(c), sel=current===c.id;
+    const x1=x(c.desde), x2=x(Math.min(c.hasta,Y1-2));
+    s+=`<g class="lane" tabindex="0" role="button" aria-label="${esc(c.nombre)}" data-id="${c.id}" opacity="${on?1:.15}">`;
+    s+=`<rect x="${L-6}" y="${y-lane/2}" width="${W-L}" height="${lane}" fill="transparent"/>`;
+    if(c.sigue) s+=`<line x1="${x2}" y1="${y}" x2="${x(2010)+8}" y2="${y}" stroke="${col(c.region)}" stroke-width="2" stroke-dasharray="1 5" stroke-linecap="round"/><text x="${x(2010)+12}" y="${y+4}" font-size="12" fill="${col(c.region)}">→</text>`;
+    s+=`<line class="bar" x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="${col(c.region)}" stroke-width="${sel?10:6}" stroke-linecap="round"/>`;
+    s+=`<circle cx="${x1}" cy="${y}" r="${sel?8:6}" fill="var(--sheet)" stroke="${col(c.region)}" stroke-width="3"/>`;
+    const lx = x1-12;
+    s+=`<text x="${lx}" y="${y+4}" font-size="12.5" text-anchor="end" fill="var(--ink)" font-weight="${sel?600:400}">${esc(c.corto)}</text>`;
+    s+=`<text x="${x1}" y="${y-9}" font-size="10" text-anchor="middle" fill="var(--muted)">${c.desde<Y0+1?"← "+c.desde:c.desde}</text>`;
+    s+=`</g>`;
+  });
+  s+=`</svg>`;
+  const el=document.getElementById("score"); el.innerHTML=s;
+  el.querySelectorAll(".lane").forEach(g=>{
+    g.onclick=()=>select(g.dataset.id,true);
+    g.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();select(g.dataset.id,true);}};
+  });
+}
+
+function listen(title,artist){
+  const q=encodeURIComponent(`${artist} ${title}`);
+  return `<div class="listen">
+    <a href="https://www.youtube.com/results?search_query=${q}" target="_blank" rel="noopener">YouTube ↗</a>
+    <a href="https://open.spotify.com/search/${q}" target="_blank" rel="noopener">Spotify ↗</a>
+    <a href="https://bandcamp.com/search?q=${q}" target="_blank" rel="noopener">Bandcamp ↗</a></div>`;
+}
+
+function renderFicha(){
+  const f=document.getElementById("ficha"); const c=byId[current];
+  f.style.setProperty("--c",col(c.region));
+  const conexiones=[...c.influye.map(t=>["influye en",t]),...CORRIENTES.filter(o=>o.influye.includes(c.id)).map(o=>["viene de",o.id])];
+  f.innerHTML=`
+  <div class="fhead">
+    <div class="kicker" style="color:${col(c.region)}">${REGIONS[c.region].name} · ${c.desde}–${c.sigue?"hoy":c.hasta}</div>
+    <h2>${esc(c.nombre)}</h2>
+    <div class="meta mono">${c.lugares.map(esc).join(" · ")}</div>
+  </div>
+  <div class="cols">
+    <div class="col">
+      <div class="sec"><h3>Contexto histórico</h3><p>${esc(c.contexto)}</p></div>
+      <div class="sec"><h3>Rasgos de estilo</h3><div class="tags">${c.rasgos.map(r=>`<span class="tag">${esc(r)}</span>`).join("")}</div></div>
+      <div class="sec"><h3>Músicos</h3><div class="tbl"><table><tbody>${c.autores.map(a=>
+        `<tr><td class="n"><button class="lk" data-m="${esc(a[0])}">${esc(a[0])}</button></td><td>${esc(a[2])}<br><span style="color:var(--muted);font-size:.85rem">${esc(a[1])}</span></td><td class="y">${esc(a[3])}</td></tr>`).join("")}</tbody></table></div></div>
+      ${conexiones.length?`<div class="sec"><h3>Conexiones</h3><div class="links">${conexiones.map(([k,id])=>`<button data-go="${id}">${k}: ${esc(byId[id].corto)}</button>`).join("")}</div></div>`:""}
+    </div>
+    <div class="col">
+      <div class="sec"><h3>Discos para escuchar</h3>${c.discos.map(d=>
+        `<div class="disc"><span class="t"><button class="lk" data-d="${esc(d[0])}">${esc(d[0])}</button></span><span class="a">${esc(d[1])} · ${esc(d[2])} · <span class="mono">${d[3]}</span></span>${listen(d[0],d[1])}</div>`).join("")}</div>
+      <div class="sec"><h3>Lecturas</h3><ul style="margin:0;padding-left:1.1em">${c.libros.map(b=>`<li><b>${esc(b[0])}</b>, <button class="lk" data-l="${esc(b[1])}"><i>${esc(b[1])}</i></button> (${b[2]})</li>`).join("")}</ul></div>
+      ${c.borrador?`<div class="draft">${esc(c.borrador)}</div>`:""}
+      <div class="sec"><h3>Mis notas</h3><textarea id="notas-${c.id}" placeholder="Lo que vas escuchando, descubrimientos, preguntas…">${esc(store.get("notas-"+c.id))}</textarea></div>
+    </div>
+  </div>`;
+  f.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>select(b.dataset.go,true));
+  const ta=document.getElementById("notas-"+c.id); ta.oninput=()=>store.set("notas-"+c.id,ta.value);
+}
+
+function renderIndex(){
+  document.getElementById("index").innerHTML=CORRIENTES.filter(matches).map(c=>
+    `<button class="card" style="--c:${col(c.region)}" data-go="${c.id}"><span class="mono">${REGIONS[c.region].name} · ${c.desde}</span><b>${esc(c.nombre)}</b><span>${c.autores.slice(0,3).map(a=>esc(a[0])).join(", ")}…</span></button>`).join("")
+    || `<p style="color:var(--muted)">Ninguna corriente coincide con la búsqueda.</p>`;
+  document.querySelectorAll("#index [data-go]").forEach(b=>b.onclick=()=>select(b.dataset.go,true));
+}
+
+function select(id,scroll){
+  if(!byId[id]) return; current=id;
+  try{history.replaceState(null,"","#"+id)}catch(e){}
+  renderScore(); renderFicha();
+  if(scroll) document.getElementById("ficha").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});
+}
+function renderAll(){renderFilters(); renderScore(); renderIndex();}
+
+/* ===== Buscador de músicos por instrumento ===== */
+const FAMILIAS = [
+  ["Saxofón",/saxo/i],["Clarinete",/clarinet/i],["Flauta y fagot",/flauta|fagot/i],
+  ["Trompeta y corneta",/trompeta|corneta/i],["Trombón",/trombón/i],
+  ["Piano y teclados",/piano|teclado|clavicordio|sintetizador|moog/i],["Guitarra",/guitarra/i],
+  ["Contrabajo",/contrabajo/i],["Violonchelo",/violonchelo/i],["Violín",/violín/i],["Arpa",/arpa/i],
+  ["Batería y percusión",/batería|percusión|gong/i],["Voz",/voz/i],
+  ["Electrónica y ruido",/electr|sampler|mixing|tocadiscos|sinusoid|ruido|concreta|drones/i],
+  ["Composición y dirección",/composición|dirección|soundpainting|orquesta|acción/i],
+  ["Danza y movimiento",/danza|coreograf|contact/i],["Otros",/acordeón|poesía|cine/i]
+];
+const MUSICOS = (()=>{
+  const m = new Map();
+  CORRIENTES.forEach(c=>c.autores.forEach(([n,nat,inst,yrs])=>{
+    if(!m.has(n)) m.set(n,{n,nat,inst,yrs,ids:[]});
+    const o=m.get(n); if(!o.ids.includes(c.id)) o.ids.push(c.id);
+  }));
+  return [...m.values()].map(o=>({...o,fams:FAMILIAS.filter(f=>f[1].test(o.inst)).map(f=>f[0])}))
+    .sort((a,b)=>a.n.localeCompare(b.n,"es"));
+})();
+let famSel=null, mq="";
+function renderRoster(){
+  const chips=document.getElementById("famchips");
+  chips.innerHTML=`<button class="chip" data-f="" aria-pressed="${famSel===null}">Todos <span class="n">${MUSICOS.length}</span></button>`+
+    FAMILIAS.map(([f])=>{const k=MUSICOS.filter(o=>o.fams.includes(f)).length;
+      return k?`<button class="chip" data-f="${f}" aria-pressed="${famSel===f}">${f} <span class="n">${k}</span></button>`:"";}).join("");
+  chips.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{famSel=b.dataset.f||null; renderRoster();});
+  const list=MUSICOS.filter(o=>(!famSel||o.fams.includes(famSel)) &&
+    (!mq||[o.n,o.inst,o.nat].join(" ").toLowerCase().includes(mq)));
+  document.getElementById("mcount").textContent=`${list.length} ${list.length===1?"músico":"músicos"}`;
+  document.getElementById("roster").innerHTML=list.map(o=>`<div class="m">
+      <div><b><button class="lk" data-m="${esc(o.n)}">${esc(o.n)}</button></b><span class="i">${esc(o.inst)}</span></div>
+      <div class="mono" style="color:var(--muted)">${esc(o.nat)} · ${esc(o.yrs)}</div>
+      <div class="where">${o.ids.map(id=>`<button data-go="${id}"><span class="dot" style="background:${col(byId[id].region)}"></span>${esc(byId[id].corto)}</button>`).join("")}</div>
+    </div>`).join("") || `<p style="color:var(--muted)">Nadie coincide con esa búsqueda.</p>`;
+  document.querySelectorAll("#roster [data-go]").forEach(b=>b.onclick=()=>select(b.dataset.go,true));
+}
+document.getElementById("mq").oninput=e=>{mq=e.target.value.trim().toLowerCase(); renderRoster();};
+renderRoster();
+
+const h=(location.hash||"").slice(1);
+current = byId[h]?h:"britanica";
+renderAll(); renderFicha();
+
+/* ===== Panel de detalle: músicos, discos y libros ===== */
+const LECTURAS=[
+  ["Derek Bailey","Improvisation: Its Nature and Practice in Music","1980; ed. ampliada 1992","La obra de referencia, con entrevistas a improvisadores de muchas tradiciones."],
+  ["Wade Matthews","Improvisando. La libre creación musical","Turner, 2012","Introducción en castellano escrita desde dentro de la práctica."],
+  ["George E. Lewis y Benjamin Piekut (eds.)","The Oxford Handbook of Critical Improvisation Studies","2016","Panorama académico amplio."],
+  ["David Toop","Into the Maelstrom: Music, Improvisation and the Dream of Freedom","2016","Historia narrativa hasta 1970."]];
+document.getElementById("lecturas").innerHTML=LECTURAS.map(b=>`<li><b>${esc(b[0])}</b>, <button class="lk" data-l="${esc(b[1])}"><i>${esc(b[1])}</i></button> (${esc(b[2])}). ${esc(b[3])}</li>`).join("");
+
+const IDX={m:{},d:{},l:{}};
+CORRIENTES.forEach(c=>{
+  c.autores.forEach(a=>{(IDX.m[a[0]]??={a,ids:[]}).ids.push(c.id)});
+  c.discos.forEach(d=>{(IDX.d[d[0]]??={d,ids:[]}).ids.push(c.id)});
+  c.libros.forEach(b=>{(IDX.l[b[1]]??={b,ids:[]}).ids.push(c.id)});
+});
+LECTURAS.forEach(b=>{IDX.l[b[1]]??={b:[b[0],b[1],b[2]],ids:[]}});
+const chipsC=ids=>`<div class="chips">${[...new Set(ids)].map(id=>`<button data-go="${id}"><span class="dot" style="background:${col(byId[id].region)}"></span>${esc(byId[id].corto)}</button>`).join("")}</div>`;
+const sinFicha=`<p style="color:var(--muted)">Aún no hay texto para esta entrada. Pídelo en el chat y lo añado.</p>`;
+const apellido=n=>n.replace(/\(.*?\)/g,"").trim().split(/\s+/).pop();
+let ultimoFoco=null;
+
+function panelHTML(tipo,clave){
+  if(tipo==="m"){
+    const r=IDX.m[clave]; if(!r) return null; const [n,nat,inst,yrs]=r.a; const f=FICHAS.m[n];
+    const ap=apellido(n);
+    const discos=Object.values(IDX.d).filter(x=>x.d[1].includes(n)||(ap.length>3&&x.d[1].includes(ap)));
+    return {c:col(byId[r.ids[0]].region), h:`
+      <div class="ptop"><div class="kicker">Músico · ${esc(inst)}</div><button class="cerrar" data-cerrar>Cerrar ✕</button></div>
+      <div style="display:grid;gap:8px"><h2 id="ptitulo">${esc(n)}</h2><div class="meta mono">${esc(nat)} · ${esc(yrs)}</div></div>
+      ${f?`<div class="sec"><h3>Biografía</h3><p>${esc(f.bio)}</p></div>
+      <div class="sec"><h3>Datos clave</h3><ul class="cl">${f.claves.map(k=>`<li>${esc(k)}</li>`).join("")}</ul></div>`:sinFicha}
+      ${discos.length?`<div class="sec"><h3>Discos en el atlas</h3><div class="chips">${discos.map(x=>`<button data-d="${esc(x.d[0])}"><i>${esc(x.d[0])}</i>&nbsp;· ${esc(String(x.d[3]))}</button>`).join("")}</div></div>`:""}
+      <div class="sec"><h3>Aparece en</h3>${chipsC(r.ids)}</div>
+      <div class="sec"><h3>Escuchar</h3>${listen("",n)}</div>`};
+  }
+  if(tipo==="d"){
+    const r=IDX.d[clave]; if(!r) return null; const [t,a,sello,y]=r.d; const f=FICHAS.d[t];
+    const esObra=/^(obra|pieza|compañía)$/.test(sello);
+    const visual=sello==="pieza"||sello==="compañía";
+    return {c:col(byId[r.ids[0]].region), h:`
+      <div class="ptop"><div class="kicker">${esObra?(sello==="obra"?"Obra":sello==="pieza"?"Pieza de danza":"Compañía"):"Disco"} · ${esc(String(y))}</div><button class="cerrar" data-cerrar>Cerrar ✕</button></div>
+      <div style="display:grid;gap:8px"><h2 id="ptitulo"><i>${esc(t)}</i></h2><div class="meta mono">${esc(a)}${esObra?"":" · "+esc(sello)}</div></div>
+      ${f?`<div class="sec"><h3>Por qué es importante</h3><p>${esc(f.porque)}</p></div>
+      <div class="sec escucha"><h3>${visual?"Qué mirar":"En qué fijarte al escuchar"}</h3><p>${esc(f.escucha)}</p></div>`:sinFicha}
+      <div class="sec"><h3>${visual?"Ver":"Escuchar"}</h3>${listen(t,a)}</div>
+      <div class="sec"><h3>Corriente</h3>${chipsC(r.ids)}</div>`};
+  }
+  if(tipo==="l"){
+    const r=IDX.l[clave]; if(!r) return null; const [au,t,y]=r.b; const f=FICHAS.l[t];
+    const q=encodeURIComponent(`${au} ${t}`);
+    return {c:r.ids.length?col(byId[r.ids[0]].region):"var(--ink)", h:`
+      <div class="ptop"><div class="kicker">Libro · ${esc(String(y))}</div><button class="cerrar" data-cerrar>Cerrar ✕</button></div>
+      <div style="display:grid;gap:8px"><h2 id="ptitulo"><i>${esc(t)}</i></h2><div class="meta mono">${esc(au)}</div></div>
+      ${f?`<div class="sec"><h3>Por qué leerlo</h3><p>${esc(f.porque)}</p></div>
+      <div class="sec escucha"><h3>En qué fijarte al leer</h3><p>${esc(f.fijate)}</p></div>`:sinFicha}
+      <div class="sec"><h3>Buscar</h3><div class="listen"><a href="https://www.google.com/search?tbm=bks&q=${q}" target="_blank" rel="noopener">Google Libros ↗</a><a href="https://www.todostuslibros.com/busquedas?keyword=${q}" target="_blank" rel="noopener">Librerías ↗</a><a href="https://archive.org/search?query=${q}" target="_blank" rel="noopener">Archive.org ↗</a></div></div>
+      ${r.ids.length?`<div class="sec"><h3>Corriente</h3>${chipsC(r.ids)}</div>`:""}`};
+  }
+  return null;
+}
+function abrirPanel(tipo,clave){
+  const p=panelHTML(tipo,clave); if(!p) return;
+  const el=document.getElementById("panel");
+  if(el.hidden) ultimoFoco=document.activeElement;
+  el.style.setProperty("--c",p.c); el.innerHTML=p.h; el.scrollTop=0;
+  el.hidden=false; document.getElementById("velo").hidden=false;
+  document.body.style.overflow="hidden";
+  el.querySelector("[data-cerrar]").focus();
+}
+function cerrarPanel(){
+  const el=document.getElementById("panel"); if(el.hidden) return;
+  el.hidden=true; document.getElementById("velo").hidden=true; document.body.style.overflow="";
+  if(ultimoFoco&&document.contains(ultimoFoco)) ultimoFoco.focus();
+}
+document.addEventListener("click",e=>{
+  const g=e.target.closest("#panel [data-go]"); if(g){cerrarPanel(); select(g.dataset.go,true); return;}
+  const b=e.target.closest("[data-m],[data-d],[data-l],[data-cerrar],#velo"); if(!b) return;
+  if(b.id==="velo"||b.hasAttribute("data-cerrar")) return cerrarPanel();
+  if(b.dataset.m) abrirPanel("m",b.dataset.m);
+  else if(b.dataset.d) abrirPanel("d",b.dataset.d);
+  else if(b.dataset.l) abrirPanel("l",b.dataset.l);
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape") cerrarPanel();});
+</script>
+
+</body></html>
