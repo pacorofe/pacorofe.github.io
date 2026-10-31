@@ -306,7 +306,7 @@ ol.temas li::marker{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
 
 <div class="app">
   <header class="top">
-    <div class="brand"><h1>Atlas Geopolítico</h1><span class="stamp">Estado del mundo · 26 oct 2026</span></div>
+    <div class="brand"><h1>Atlas Geopolítico</h1><span class="stamp">Estado del mundo · 31 oct 2026</span></div>
     <div class="search">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
       <input id="q" type="search" placeholder="Buscar país, estrecho, conflicto…" autocomplete="off" aria-label="Buscar en el atlas">
@@ -1538,6 +1538,86 @@ GUIDE.ai.d.push(['Controles chinos (propuesta, 16 oct. 2026)','40 sistemas tecno
 rpP('840','Peso relativo','Peso relativo: China lo supera en PIB a paridad de poder adquisitivo desde 2014 y el dólar baja al 56,7 % de las reservas mundiales (2T 2026), aunque sigue liderando en PIB nominal, tecnología y gasto militar.');
 {const x=LENSES.eeuu.d.find(d=>d[0]==='Dólar en las reservas mundiales');if(x){x[1]='~71 % (1999-2000) → 56,7 % (2T 2026)';x[2]='cof2';}}
 
+/* ===== ACTUALIZACIÓN 2026-10-31 ===== */
+Object.assign(DSRC,{
+ il1:['The Times of Israel · Recuento con el 99,9 % escrutado (29 oct. 2026)','https://www.timesofisrael.com/with-85-of-votes-counted-netanyahu-bloc-has-53-seats-eisenkots-48-arab-parties-surge-to-19/'],
+ il2:['i24NEWS · Fin del recuento: el bloque de Netanyahu, sin mayoría (29 oct. 2026)','https://www.i24news.tv/en/news/israeli-elections/artc-israel-completes-vote-count-with-netanyahu-s-bloc-short-of-a-majority'],
+ bra3:['MercoPress · La carta de Flávio Bolsonaro desde EEUU (29 oct. 2026)','https://en.mercopress.com/2026/10/29/true-president-then-leader-bolsonaro-s-letter-from-the-united-states'],
+ bra4:['Newsweek · Cómo salió Flávio Bolsonaro de Brasil hacia Miami (oct. 2026)','https://www.newsweek.com/how-flavio-bolsonaro-fled-brazil-reached-miami-flight-path-details-12630784'],
+ bra5:['Metrópoles · Flávio se declara “verdadeiro presidente eleito” (28 oct. 2026)','https://www.metropoles.com/mundo/em-carta-flavio-se-declara-verdadeiro-presidente-eleito-do-brasil'],
+ bra6:['SBT News · Ministros del TSE descartan la anulación (26 oct. 2026)','https://sbtnews.sbt.com.br/colunas/coluna-da-basilia/diferenca-de-votos-faz-ministros-do-tse-descartarem-anulacao'],
+ hz5:['Euronews · La Guardia Revolucionaria informa de 3 petroleros en llamas en Ormuz (30 oct. 2026)','https://es.euronews.com/2026/10/30/la-guardia-revolucionaria-irani-informa-de-3-petroleros-en-llamas-en-ormuz'],
+ hz6:['BusinessDay (Reuters) · Irán rechaza la propuesta de paz catarí (28 oct. 2026)','https://www.businessday.co.za/world/middle-east/2026-10-28-iran-rejects-qatari-peace-proposal-as-only-unacceptable-ideas/'],
+ brt1:['Investing.com · Brent, histórico de cierres diarios (consultado el 31 oct. 2026)','https://www.investing.com/commodities/brent-oil-historical-data'],
+ brt2:['FinanceFeeds · Cierre del Brent del 30 oct. 2026 (31 oct. 2026)','https://financefeeds.com/brent-crude-oil-price-113-saturday-week-ahead-after-october-13-6-percent-gain-hormuz-mines-midterms-jobs-report-bull-120-bear-106/'],
+ brt3:['Investing.com · El crudo, en máximos de seis meses (31 oct. 2026)','https://uk.investing.com/news/economy-news/oil-hits-sixmonth-highs-as-hormuz-attacks-threaten-iran-peace-efforts-4947028'],
+ ua4:['The Kyiv Independent · Novak confirma ataques a tres refinerías (30 oct. 2026)','https://kyivindependent.com/russian-oil-refinery-reportedly-attacked-amid-renewed-ukrainian-strikes-on-energy-infrastructure/'],
+ ua5:['CGTN · Rusia y Ucrania preparan las conversaciones trilaterales (28 oct. 2026)','https://news.cgtn.com/news/2026-10-28/Ukraine-Russia-prepare-for-trilateral-talks-as-fighting-intensifies-1RBwWGPDw5i/share_amp.html'],
+ gz1:['The Jerusalem Post · Israel sopesa escalar con Irán y en Gaza tras el voto en EEUU (31 oct. 2026)','https://jpost.com/israel-news/defense-news/article-913395'],
+ ne1:['Sahara Reporters · Detenidos decenas de soldados tras el intento de golpe en Níger (30 ago. 2026)','https://saharareporters.com/2026/08/30/niger-republic-arrests-dozens-soldiers-over-attempted-coup-nigeria-calls-constitutional'],
+ ne2:['RFI, vía allAfrica · “Los rusos salvaron la situación” (1 sep. 2026)','https://allafrica.com/stories/202609010007.html'],
+ ne3:['Africanews · Manifestación de apoyo a la junta tras el motín (3 sep. 2026)','https://africanews.com/2026/09/03/thousands-rally-to-back-niger-authorities-after-thwarted-mutiny'],
+ rw1:['Reuters, vía Internazionale · EEUU sanciona al Ministerio de Defensa de Ruanda (28 oct. 2026)','https://www.internazionale.it/ultime-notizie-reuters/2026/10/28/us-imposes-sanctions-on-rwanda-s-ministry-of-defense'],
+ cdr:['Critical Threats · Congo War Security Review (28 oct. 2026)','https://www.criticalthreats.org/briefs/congo-war-security-review'],
+ sd1:['Al Jazeera · ¿Gana impulso el ejército sudanés frente a las RSF? (4 oct. 2026)','https://www.aljazeera.com/news/2026/10/4/is-the-sudanese-army-gaining-momentum-against-the-rsf'],
+ tw1:['Focus Taiwan (CNA) · Despliegue naval chino más allá de la primera cadena de islas (29 oct. 2026)','https://focustaiwan.tw/politics/202610290014'],
+ pl1:['Euronews · Caos en el Tribunal Constitucional polaco (31 oct. 2026)','https://www.euronews.com/2026/10/31/poland-political-crisis-constitutional-court-in-chaos-as-nawrocki-accuses-government-of-st'],
+ boat:['Consortium News (recuento de The Intercept) · Ataques de EEUU a lanchas (29 oct. 2026)','https://consortiumnews.com/2026/10/29/us-kills-5-more-in-extrajudicial-executions-at-sea'],
+ ucdp21:['UCDP · Organized violence in 2021 (boletín)','https://ucdp.uu.se/downloads/newsletter/issue4.html']
+});
+Object.assign(SRC,{toi:'The Times of Israel',mp:'MercoPress',kyi:'The Kyiv Independent',fta:'Focus Taiwan'});
+
+/* --- Israel: resultado de las elecciones del 27 de octubre --- */
+rpP('376','Elecciones a la Knesset','Elecciones del 27 oct. 2026 (recuento al 99,9 %; oficiales el 4 nov.): Likud 27 escaños, Yashar de Eisenkot 21, Bennett 12. El bloque de Netanyahu baja a 53 (tenía 68), la oposición sionista suma 48 y los partidos árabes, récord de 19. Nadie alcanza los 61.');
+upd('376',{addP:['Bloqueo poselectoral: Eisenkot y Liberman descartan gobernar con Netanyahu y casi toda la oposición sionista (salvo los Demócratas de Golan) rechaza apoyarse en los partidos árabes. Herzog consultará a los grupos tras los resultados oficiales; no se descartan un gobierno de unidad ni nuevas elecciones.','Según The Jerusalem Post (31 oct.), el ejército prepara una ofensiva terrestre para tomar Ciudad de Gaza y fuentes de defensa sostienen que Hamás no tiene intención de desarmarse.']});
+{const e=ELECTIONS.find(x=>x[0]==='2026-10-27'&&x[1]==='376');if(e)e[3]='Resultado (99,9 % escrutado, Comité Electoral Central): Likud 27, Yashar (Eisenkot) 21, B’Yachad (Bennett) 12, Lista Conjunta 11, Demócratas 8, Ra’am 8, Yisrael Beytenu 7, Otzma Yehudit 7, Judaísmo Unido de la Torá 7, Shas 6, Sionismo Religioso 6. Bloques: Netanyahu 53, oposición 48, partidos árabes 19. Participación: 77,9 %. Resultados oficiales el 4 de noviembre.';}
+READ['376']=(READ['376']||[]).concat([['Fin del recuento: el bloque de Netanyahu se queda en 53','toi','https://www.timesofisrael.com/with-85-of-votes-counted-netanyahu-bloc-has-53-seats-eisenkots-48-arab-parties-surge-to-19/']]);
+POINTS.war.find(p=>p[0]==='Gaza')[2]+=' Octubre de 2026: el ejército israelí prepara una ofensiva para tomar Ciudad de Gaza, según The Jerusalem Post.';
+OVERVIEW[2][1]='Treguas frágiles con ataques continuos. Las elecciones del 27 de octubre dejan a Israel sin mayoría: el bloque de Netanyahu cae a 53 escaños.';
+
+/* --- Brasil: Flávio Bolsonaro se marcha a EEUU --- */
+rpP('076','Lula, reelegido','Lula, reelegido el 25 oct. 2026 con 64,26 millones de votos frente a 59,83 millones de Flávio Bolsonaro (TSE). Ministros del TSE descartan anular la elección por la amplitud de la diferencia; el PL y el candidato a vicepresidente de Flávio reconocieron el resultado.');
+upd('076',{addP:['Flávio Bolsonaro salió del país el 27 oct., tras la orden del Supremo de entregar sus pasaportes (le investiga por blanqueo y corrupción, cargos que niega), y llegó a Miami el 28 vía Argentina y Ecuador. En una carta se presentó como “verdadeiro presidente eleito” y luego lo cambió por “líder”; denuncia un fraude que no ha probado.'],setRel:[['840','ten','Aranceles y presión política. Trump dijo que la elección brasileña “parecía otra elección amañada” y EEUU concedió visados a Flávio Bolsonaro y su familia (oct. 2026).']]});
+{const e=ELECTIONS.find(x=>x[0]==='2026-10-25'&&x[1]==='076');if(e)e[3]+=' El 28 de octubre Flávio Bolsonaro se instaló en Miami y se proclamó, en una carta que luego corrigió, “verdadero presidente electo”. No consta que haya presentado una petición formal de anulación ante el TSE.';}
+READ['076']=(READ['076']||[]).concat([['La carta de Flávio Bolsonaro desde EEUU','mp','https://en.mercopress.com/2026/10/29/true-president-then-leader-bolsonaro-s-letter-from-the-united-states']]);
+
+/* --- Irán y Ormuz --- */
+upd('364',{addP:['Rechazó el 28 oct. una propuesta de paz catarí como “ideas inaceptables”; los mediadores cataríes regresaron a Teherán con una versión revisada. Según Axios y AP, EEUU e Israel estudian ataques amplios después de las midterms.']});
+D('Estrecho de Ormuz',{d:DET['Estrecho de Ormuz'].d.filter(x=>x[0]!=='Brent').concat([
+ ['Brent (futuro de diciembre, vencimiento)','117,64 $ al cierre del 30 oct. 2026; el contrato de enero cerró en 113,43 $','brt2'],
+ ['Brent: subida en octubre de 2026','+13,6 % (de ~100-102 $ a primeros de mes)','brt2'],
+ ['Brent, cierre del 23 oct. 2026','111,70 $ (la cifra de 116,7 $ citada antes no se pudo confirmar)','brt1'],
+ ['Incidentes del 29-30 oct.','Minas lapa en el petrolero Louise 1 (UKMTO); la Guardia Revolucionaria informa de tres petroleros en llamas','hz5']]),
+ watch:'Cifras y relatos enfrentados: Irán dice que los petroleros atacados navegaban por rutas no autorizadas con apoyo de EEUU; el CENTCOM asegura que las rutas principales están despejadas de minas. Washington ha advertido a sus aliados de posibles ataques tras las midterms del 3 de noviembre, aunque Trump no ha decidido.'});
+POINTS.war.find(p=>p[0]==='Guerra de Irán')[2]='EEUU e Israel atacaron Irán el 28 de febrero de 2026. La tregua de abril se rompió en julio; EEUU bloquea los puertos iraníes. A finales de octubre, minas y ataques a petroleros en Ormuz, e Irán rechaza la propuesta de paz catarí.';
+OVERVIEW[0][1]='Sin tregua desde julio: octubre acaba con minas y ataques a petroleros en Ormuz, mediación catarí estancada y el Brent un 13,6 % más caro que a primeros de mes.';
+
+/* --- Rusia-Ucrania --- */
+upd('804',{addP:['Pausa informal de los ataques a refinerías rusas a finales de octubre, bajo presión de EEUU según el WSJ; el 30 oct. Rusia confirmó ataques a tres refinerías y un complejo gasoquímico (Novokuibyshevsk). Un ataque ruso a una instalación energética dejó sin luz ni agua parte de Kiev el 31 oct.','Zelenski sitúa la ronda trilateral con EEUU y Rusia en Abu Dabi en la primera quincena de noviembre.']});
+upd('643',{addP:['El Kremlin avisa de que reanudar las conversaciones no limitará sus operaciones militares; Ushakov invita a Zelenski a Moscú si quiere hablar con Putin (oct. 2026).']});
+POINTS.war.find(p=>p[0]==='Guerra Rusia-Ucrania')[2]+=' A finales de mes, Ucrania retoma los ataques a refinerías y Rusia golpea la red eléctrica de Kiev.';
+
+/* --- Níger: intento de golpe del 29 de agosto de 2026 --- */
+upd('562',{addP:['Intento de golpe (29 ago. 2026): soldados amotinados atacaron la base aérea 101 de Niamey (sede del mando de la Alianza del Sahel), el palacio presidencial y la televisión pública. La guardia presidencial, con ayuda del Africa Corps ruso, lo sofocó; decenas de soldados detenidos. La junta culpa a Francia, que lo niega; analistas ven un régimen más dependiente de Rusia.'],setRel:[['643','ali','Socio de seguridad: el Africa Corps ruso fue decisivo para sofocar el motín de agosto de 2026, según analistas.'],['250','riv','Uranio nacionalizado; Niamey acusa a París de estar detrás del intento de golpe de agosto de 2026, algo que Francia niega.']]});
+POINTS.tension.push(['Níger: motín sofocado',[2.11,13.51],'29 ago. 2026: intento de golpe en Niamey contra la junta de Tiani, sofocado con ayuda rusa.']);
+D('Níger: motín sofocado',{why:'Primer desafío armado a la junta de Tiani desde 2023. Mostró el malestar en los cuarteles y la dependencia de Rusia, y puede desviar recursos de la lucha contra el yihadismo.',d:[['Fecha','29 de agosto de 2026','ne1'],['Objetivos','Base aérea 101, palacio presidencial y televisión pública','ne1'],['Papel ruso','Africa Corps, con drones, ayudó a retomar la base','ne2'],['Reacción','Apoyo de Malí y Burkina Faso; Nigeria pide volver al orden constitucional','ne1']],act:['Junta de Tiani (CNSP)','Soldados amotinados','Africa Corps ruso','Alianza del Sahel'],watch:'Purgas y medidas antigolpe en el ejército y la versión oficial cambiante (motín espontáneo o complot extranjero).'});
+OVERVIEW[4][1]='La mayor crisis humanitaria y el avance yihadista en África; en Níger, la junta sofocó en agosto un intento de golpe con ayuda rusa.';
+
+/* --- RDC, Ruanda y Sudán --- */
+upd('646',{setRel:[['840','ten','EEUU sancionó el 28 oct. 2026 a su Ministerio de Defensa y a la cooperativa Zigama por apoyar al M23; Kigali lo niega y reclama que se neutralice a las FDLR.']]});
+upd('180',{addP:['EEUU sanciona al Ministerio de Defensa ruandés (28 oct. 2026) para presionar por los Acuerdos de Washington; los combates siguen en los Kivus sin cambios operativos importantes.']});
+POINTS.war.find(p=>p[0]==='Este de la RDC')[2]+=' Octubre de 2026: EEUU sanciona al Ministerio de Defensa de Ruanda.';
+upd('729',{addP:['El ejército tomó al-Mazroub (Kordofán del Norte) el 2 oct. 2026, un nudo que enlaza con el Kordofán Occidental de las RSF; 19,5 millones de personas sufren hambre aguda (CIF, mayo de 2026).']});
+
+/* --- Taiwán, Venezuela y Polonia --- */
+upd('158',{addP:['Su ministro de Exteriores mostró (28 oct. 2026) 34 buques de guerra chinos, entre ellos el grupo del portaaviones Liaoning, y 19 de guardacostas al este de la primera cadena de islas; habló de amenaza “obvia” para Taiwán, Japón y Filipinas.']});
+upd('862',{addP:['Los ataques de EEUU contra lanchas en el Caribe y el Pacífico suman al menos 243 muertos desde septiembre de 2025, según el recuento de The Intercept (oct. 2026).']});
+upd('616',{addP:['Crisis constitucional (30-31 oct. 2026): jueces elegidos por el Parlamento tomaron el Tribunal Constitucional y suspendieron a su presidente; el presidente Nawrocki lo llama toma por la fuerza, y el Gobierno de Tusk y PiS se acusan mutuamente.']});
+
+/* --- Cifras: UCDP 2021 --- */
+{const c=TL.poder.charts.find(x=>x.id==='conf');const s=c.s.Conflictos;if(!s.some(q=>q[0]===2021))s.push([2021,54]);s.sort((a,b)=>a[0]-b[0]);c.src=['ucdp','prio','ucdp21','ucdp25'];c.note='1946-2020: UCDP-PRIO (vía Our World in Data); 2021 (54), 2022, 2023 y 2025: UCDP (2025, récord de 65 conflictos con Estados, 8 entre Estados); 2024: PRIO.';}
+{const u=UNCERT.find(x=>x[1]==='¿Qué deciden las urnas?');if(u){u[2]='Lula ganó en Brasil y Flávio Bolsonaro, desde Miami, no reconoce el resultado; Israel votó sin mayoría clara (53 escaños para Netanyahu). Quedan las midterms de EEUU el 3 de noviembre, Taiwán el 28 y España el 29 de noviembre.';u[3]=['bra3','il1'];}}
+
 </script>
 <script>
 (()=>{
@@ -1919,14 +1999,14 @@ function elRow(e){const past=e.date<TODAY;return `<button class="${past?'past':'
 function agendaHtml(){const up=EL.filter(e=>e.date>=TODAY),past=EL.filter(e=>e.date<TODAY).slice(-2);const first=[...past,...up.slice(0,6)],rest=up.slice(6);
  return `<div class="agenda">${first.map(elRow).join('')}</div>${rest.length?`<details class="more"><summary>Ver ${rest.length} citas más hasta finales de 2027</summary><div class="agenda">${rest.map(elRow).join('')}</div></details>`:''}`}
 function showOverview(){
- let h=`<p class="eyebrow">Resumen · 26 oct 2026</p><h2>El tablero mundial hoy</h2><p class="lede">Toca cualquier país para ver qué le preocupa y con quién se alía o choca. Activa capas arriba para ver recursos, rutas, ductos, cables, bases e historia.</p><h3>Calendario electoral</h3>${agendaHtml()}<h3>Focos que mueven el mundo</h3><div class="items">${OVERVIEW.map((o,i)=>`<button class="item" data-ov="${i}" style="--c:var(--war)"><i class="sw"></i><div><b>${esc(o[0])}</b><span>${esc(o[1])}</span></div></button>`).join('')}</div>`;
+ let h=`<p class="eyebrow">Resumen · 31 oct 2026</p><h2>El tablero mundial hoy</h2><p class="lede">Toca cualquier país para ver qué le preocupa y con quién se alía o choca. Activa capas arriba para ver recursos, rutas, ductos, cables, bases e historia.</p><h3>Calendario electoral</h3>${agendaHtml()}<h3>Focos que mueven el mundo</h3><div class="items">${OVERVIEW.map((o,i)=>`<button class="item" data-ov="${i}" style="--c:var(--war)"><i class="sw"></i><div><b>${esc(o[0])}</b><span>${esc(o[1])}</span></div></button>`).join('')}</div>`;
  h+=`<h3>Perspectivas para leer el mundo</h3><p style="font-size:14px;color:var(--muted)">Cinco lecturas con su tesis, datos, contrapuntos y elementos del mapa.</p><div class="lenses">${Object.entries(LENSES).map(([k,l])=>`<button data-lens="${k}"><b>${esc(l.t)}</b><span>${esc(l.sub)}</span></button>`).join('')}</div>`;
  h+=`<h3>Flujos y recursos: por qué importan</h3><p style="font-size:14px;color:var(--muted)">Guías con su peso geopolítico y datos contrastados (EIA, IEA, USGS, UNCTAD, TeleGeography…).</p><p class="eyebrow" style="margin-top:10px">Flujos</p><div class="cloud">${['choke','sea','land','pipe','cable'].map(k=>`<button data-guide="${k}">${esc(GUIDE[k].t)}</button>`).join('')}</div><p class="eyebrow" style="margin-top:12px">Recursos</p><div class="cloud">${Object.keys(RES_TYPES).map(r=>`<button data-guide="r:${r}">${esc(GUIDE['r:'+r].t)}</button>`).join('')}</div>`;
  h+=`<h3>El año en diez claves</h3><p style="font-size:14px;color:var(--muted)">Según el CIDOB, estos temas marcan la agenda de 2026:</p><details class="more"><summary>Ver las diez claves</summary><ol class="temas">${CIDOB10.map(t=>`<li>${esc(t)}</li>`).join('')}</ol></details>`;
  h+=`<h3>Fichas de países</h3>${REGIONS.map(([r,ids])=>`<p class="eyebrow" style="margin-top:12px">${r}</p><div class="cloud">${ids.map(id=>`<button data-c="${esc(id)}">${esc(nm(id))}</button>`).join('')}</div>`).join('')}`;
  h+=`<h3>Colorea por alianza</h3><div class="blocs">${Object.entries(BLOCS).map(([k,b])=>`<button data-bloc="${k}">${esc(b.n)}</button>`).join('')}</div>`;
  h+=readsHtml(GLOBAL_READ,'Fuentes para seguir el mundo');
- h+=`<p class="meta">Última revisión: 26 de octubre de 2026 (resultado de Brasil, Ormuz sin tregua, negociaciones sobre Ucrania, Cisjordania, Venezuela, Taiwán y cifras del UCDP y el FMI). Revisión inicial el 25 de octubre de 2026 con Real Instituto Elcano, CIDOB, Foreign Affairs, Política Exterior, Le Monde diplomatique, Descifrando la Guerra y The Objective, además de informes públicos. Los conflictos cambian rápido: contrasta lo reciente con prensa actual. Trazados de rutas, ductos y cables simplificados. Fronteras: Natural Earth.</p>`;
+ h+=`<p class="meta">Última revisión: 31 de octubre de 2026 (resultado de Israel, Flávio Bolsonaro en Miami, Ormuz y Brent, refinerías y red eléctrica en Ucrania, intento de golpe en Níger, sanciones a Ruanda, Taiwán, Polonia y UCDP 2021). Revisión anterior: 26 de octubre de 2026. Revisión inicial el 25 de octubre de 2026 con Real Instituto Elcano, CIDOB, Foreign Affairs, Política Exterior, Le Monde diplomatique, Descifrando la Guerra y The Objective, además de informes públicos. Los conflictos cambian rápido: contrasta lo reciente con prensa actual. Trazados de rutas, ductos y cables simplificados. Fronteras: Natural Earth.</p>`;
  P.innerHTML=h;P.scrollTop=0;
 }
 P.addEventListener('click',e=>{const a=e.target.closest('.ubar a');if(a){e.preventDefault();P.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'})}});
