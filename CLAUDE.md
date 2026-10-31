@@ -2,7 +2,8 @@
 
 Este repositorio es un sitio estático de GitHub Pages con varios **atlas interactivos**
 sobre las aficiones de Paco. Cada atlas es una página HTML autocontenida (HTML + CSS + JS
-en un único `index.html`, sin build ni dependencias salvo Google Fonts).
+en un único `index.html`, sin build; solo Google Fonts y, en geopolítica, d3/topojson
+guardados en `geopolitica/vendor/`).
 
 Se publica en `https://<usuario>.github.io/` desde la rama `main`, carpeta `/`.
 
@@ -14,6 +15,7 @@ geopolitica/index.html   Atlas Geopolítico 2026: mapa mundial SVG + panel de fi
 fotografia/index.html    Atlas de la fotografía: corrientes como tira de contactos
 improvisacion/index.html Atlas de la libre improvisación: corrientes como partitura gráfica
 .nojekyll                Desactiva Jekyll: se sirve el HTML tal cual
+geopolitica/vendor/      d3 7.9.0 y topojson-client 3.1.0 en local (sin depender de CDNs)
 ```
 
 ## Reglas de trabajo
